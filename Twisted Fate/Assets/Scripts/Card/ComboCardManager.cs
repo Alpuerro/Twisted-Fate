@@ -50,19 +50,19 @@ public class ComboCardManager : MonoBehaviour
                     ProcessRainbowCombo();
                     break;
                 case 1:
-                    ProcessHealthUpCombo(comboValues.healthUpData[c.comboLevel]);
+                    ProcessHealthUpCombo(comboValues.healthUpData[c.comboLevel-1]);
                     break;
                 case 2:
-                    ProcessArmourUpCombo(comboValues.armourUpData[c.comboLevel]);
+                    ProcessArmourUpCombo(comboValues.armourUpData[c.comboLevel - 1]);
                     break;
                 case 3:
-                    ProcessDrawCombo(comboValues.drawData[c.comboLevel]);
+                    ProcessDrawCombo(comboValues.drawData[c.comboLevel - 1]);
                     break;
                 case 4:
-                    ProcessStunCombo(comboValues.stunData[c.comboLevel]);
+                    ProcessStunCombo(comboValues.stunData[c.comboLevel - 1]);
                     break;
                 case 5:
-                    ProcessDamageUpCombo(comboValues.damageUpData[c.comboLevel]);
+                    ProcessDamageUpCombo(comboValues.damageUpData[c.comboLevel - 1]);
                     break;
             }
         }
