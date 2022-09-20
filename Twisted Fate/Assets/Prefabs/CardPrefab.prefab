@@ -190,6 +190,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dampingSpeed: 0.02
+  onZone: 0
 --- !u!225 &1741794948445445995
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -217,6 +218,7 @@ MonoBehaviour:
   _textBoxes:
   - {fileID: 1298559431137391789}
   - {fileID: 8777615420209552911}
+  background: {fileID: 1741794948531450806}
 --- !u!1 &1741794948531450803
 GameObject:
   m_ObjectHideFlags: 0

@@ -42,10 +42,13 @@ public class CardHand : MonoBehaviour
     }
 
     [ContextMenu("Draw one card")]
-    private void DrawCard()
+    public void DrawCard()
     {
-        Card newCard = _deck.DrawCard();
-        newCard.transform.parent = transform;
-        ReorderHand();
+        if (_rectTransform.childCount < handSize)
+        {
+            Card newCard = _deck.DrawCard();
+            newCard.transform.parent = transform;
+            ReorderHand();
+        }
     }
 }

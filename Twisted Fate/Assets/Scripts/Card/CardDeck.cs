@@ -74,8 +74,10 @@ public class CardDeck : MonoBehaviour
         newCard.SetCardData(_cardRemaings.Pop());
         Debug.Log(_cardRemaings.Count);
 
-        //TODO: si no quedan cartas en el deck coger la de la pila de descartes
-
+        if (_cardRemaings.Count <= 1)
+        {
+            //TODO: si no quedan cartas en el deck coger la de la pila de descartes
+        }
         return newCard;
     }
 
