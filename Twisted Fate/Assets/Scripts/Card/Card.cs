@@ -15,6 +15,11 @@ public class Card : MonoBehaviour
         return _data;
     }
 
+    public void SetCardRotation(float angle)
+    {
+        background.transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
+    }
+
     public void SetCardData(CardData newData)
     {
         _data = newData;

@@ -10,6 +10,7 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     public bool onZone = false;
 
     private RectTransform _draggingTransform;
+    private Card _card;
     private CanvasGroup _canvasGroup;
     private Vector3 _velocity;
     private Canvas _canvas;
@@ -19,12 +20,14 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         _draggingTransform = transform as RectTransform;
         _canvasGroup = GetComponent<CanvasGroup>();
         _canvas = GetComponentInParent<Canvas>();
+        _card = GetComponent<Card>();
     }
 
     public void OnBeginDrag(PointerEventData eventData)
     {
         transform.parent = _canvas.transform;
         _canvasGroup.blocksRaycasts = false;
+        _card.SetCardRotation(0);
         onZone = false;
     }
 
@@ -40,7 +43,7 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     {
         if (!onZone)
         {
-            GameEvents.CardRemoved.Invoke(GetComponent<Card>().GetCardData());
+            GameEvents.CardRemoved.Invoke(_card.GetCardData());
             transform.parent = FindObjectOfType<CardHand>().transform;
         }
         _canvasGroup.blocksRaycasts = true;

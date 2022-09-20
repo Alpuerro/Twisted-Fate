@@ -10,6 +10,7 @@ public class CardHand : MonoBehaviour
     private RectTransform _rectTransform;
 
     public int handSize = 7;
+    public float angleOffset = 7;
     void Start()
     {
         _layoutGroup = GetComponent<HorizontalLayoutGroup>();
@@ -36,7 +37,14 @@ public class CardHand : MonoBehaviour
             RectTransform cardTransform = _rectTransform.GetChild(0).transform as RectTransform;
             if (cardTransform.sizeDelta.x * _rectTransform.childCount > _rectTransform.sizeDelta.x)
             {
-                _layoutGroup.spacing = -(cardTransform.sizeDelta.x * _rectTransform.childCount - _rectTransform.sizeDelta.x) / (_rectTransform.childCount - 1);
+                _layoutGroup.spacing = -(cardTransform.sizeDelta.x * _rectTransform.childCount - _rectTransform.sizeDelta.x) / (_rectTransform.childCount + 1);
+                _layoutGroup.padding.left = (int)_layoutGroup.spacing;
+            }
+
+            float angleSpan = angleOffset * _rectTransform.childCount;
+            for (int i = 0; i < _rectTransform.childCount; i++)
+            {
+                _rectTransform.GetChild(i).GetComponent<Card>().SetCardRotation((angleSpan * 0.5f) - angleOffset * i);
             }
         }
     }
