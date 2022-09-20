@@ -7,6 +7,7 @@ using UnityEngine.EventSystems;
 public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
     public float dampingSpeed = 0.05f;
+    public bool onZone = false;
 
     private RectTransform _draggingTransform;
     private CanvasGroup _canvasGroup;
@@ -24,6 +25,7 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     {
         transform.parent = _canvas.transform;
         _canvasGroup.blocksRaycasts = false;
+        onZone = false;
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -36,11 +38,17 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        if (!onZone)
+        {
+            GameEvents.CardRemoved.Invoke(GetComponent<Card>().GetCardData());
+            transform.parent = FindObjectOfType<CardHand>().transform;
+        }
         _canvasGroup.blocksRaycasts = true;
     }
 
     public void OnDropZone(Transform newParent, Vector2 position)
     {
+        onZone = true;
         transform.parent = newParent;
         transform.position = position;
     }

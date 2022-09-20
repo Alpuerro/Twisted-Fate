@@ -1,31 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
-public class Card
+public class Card : MonoBehaviour
 {
-    private int _cardNumber;
-    private int _cardType;
+    [SerializeField] TextMeshProUGUI[] _textBoxes;
+    private CardData _data;
 
-    public int cardType
+    public CardData GetCardData()
     {
-        get { return _cardType; }
-        set { _cardType = value; }
+        return _data;
     }
 
-    public Card(int number, int type)
+    public void SetCardData(CardData newData)
     {
-        _cardNumber = number;
-        _cardType = type;
-    }
-
-    public int GetNumberUnits()
-    {
-        return _cardNumber % 10;
-    }
-
-    public int GetNumberDecens()
-    {
-        return _cardNumber / 10;
+        _data = newData;
+        foreach (TextMeshProUGUI t in _textBoxes)
+        {
+            t.text = _data.GetNumber().ToString();
+        }
     }
 }
