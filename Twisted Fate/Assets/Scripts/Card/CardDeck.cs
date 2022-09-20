@@ -5,11 +5,13 @@ using UnityEngine;
 public class CardDeck : MonoBehaviour
 {
     [SerializeField] Card cardPrefab;
+    private CardGraveyard _graveyard;
 
     private Stack<CardData> _cardRemaings = new Stack<CardData>();
 
     private void Awake()
     {
+        _graveyard = FindObjectOfType<CardGraveyard>();
         StartDeck();
     }
 
@@ -21,7 +23,7 @@ public class CardDeck : MonoBehaviour
 
     private void CreateNewDeck()
     { 
-        for(int i = 0; i < 101; i++)
+        for(int i = 0; i < 8; i++)
         {
             if (i == 0)
             {
@@ -71,12 +73,19 @@ public class CardDeck : MonoBehaviour
     public Card DrawCard()
     {
         Card newCard = Instantiate(cardPrefab, transform);
-        newCard.SetCardData(_cardRemaings.Pop());
+        if (_cardRemaings.Count > 0) newCard.SetCardData(_cardRemaings.Pop());
+        else newCard.SetCardData(new CardData(0, 0)); //only in case, it shouldnt happend
         Debug.Log(_cardRemaings.Count);
 
         if (_cardRemaings.Count <= 1)
         {
-            //TODO: si no quedan cartas en el deck coger la de la pila de descartes
+            Debug.Log("Graveyard al deck");
+            foreach (CardData c in _graveyard.GetCards())
+            {
+                _cardRemaings.Push(c);   
+            }
+            _graveyard.ClearGraveyard();
+            ShuffleDeck();
         }
         return newCard;
     }

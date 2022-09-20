@@ -9,6 +9,7 @@ public class CardsPlayedZone : MonoBehaviour, IDropHandler
     private RectTransform _droppingTransform;
     private HorizontalLayoutGroup _layoutGroup;
     [SerializeField] Button _playButton;
+    private CardGraveyard _cardGraveyard;
 
     public List<CardData> cardsPlayed = new List<CardData>();
     
@@ -17,6 +18,7 @@ public class CardsPlayedZone : MonoBehaviour, IDropHandler
         _droppingTransform = transform as RectTransform;
         _layoutGroup = GetComponent<HorizontalLayoutGroup>();
         _playButton.interactable = false;
+        _cardGraveyard = FindObjectOfType<CardGraveyard>();
         GameEvents.CardPlayed.AddListener(AddCard);
         GameEvents.CardRemoved.AddListener(RemoveCard);
     }
@@ -71,7 +73,9 @@ public class CardsPlayedZone : MonoBehaviour, IDropHandler
     {
         ComboCardManager.instance.ProcessComboCard(cardsPlayed);
 
-        //TODO animacion de combo y descartarlas
+        //TODO animacion
+        _cardGraveyard.AddCards(cardsPlayed);
+        ClearZone();
     }
 
     private void ReorderCardZone()
@@ -84,6 +88,16 @@ public class CardsPlayedZone : MonoBehaviour, IDropHandler
                 _layoutGroup.spacing = -(cardTransform.sizeDelta.x * _droppingTransform.childCount - _droppingTransform.sizeDelta.x) / (_droppingTransform.childCount - 1);
             }
         }
+    }
+
+    private void ClearZone()
+    {
+        for (int i = 0; i < _droppingTransform.childCount; i++)
+        {
+            Destroy(_droppingTransform.GetChild(i).gameObject);
+        }
+        cardsPlayed.Clear();
+        CheckPlayButton();
     }
 
 }
