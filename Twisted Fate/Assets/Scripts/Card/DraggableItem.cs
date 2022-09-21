@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
-public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
+public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerExitHandler, IPointerEnterHandler
 {
     public float dampingSpeed = 0.05f;
     public bool onZone = false;
@@ -27,6 +27,7 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     {
         transform.parent = _canvas.transform;
         _canvasGroup.blocksRaycasts = false;
+        _card.scaleToReset = Vector3.one;
         _card.SetCardRotation(0);
         onZone = false;
     }
@@ -43,8 +44,8 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     {
         if (!onZone)
         {
-            GameEvents.CardRemoved.Invoke(_card.GetCardData());
             transform.parent = FindObjectOfType<CardHand>().transform;
+            GameEvents.CardRemoved.Invoke(_card.GetCardData());
         }
         _canvasGroup.blocksRaycasts = true;
     }
@@ -52,7 +53,20 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     public void OnDropZone(Transform newParent, Vector2 position)
     {
         onZone = true;
+        _card.CardPlayedAnimation();
         transform.parent = newParent;
         transform.position = position;
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        if (!onZone)
+            _card.ResetAnimation();
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if(!onZone)
+            _card.SelectedAnimation();
     }
 }

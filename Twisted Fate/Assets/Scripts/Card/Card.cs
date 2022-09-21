@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using DG.Tweening;
+using System;
 
 public class Card : MonoBehaviour
 {
@@ -10,14 +12,24 @@ public class Card : MonoBehaviour
     [SerializeField] Image background;
     private CardData _data;
 
+    public Vector3 scaleToReset = Vector3.one;
+
     public CardData GetCardData()
     {
         return _data;
     }
 
-    public void SetCardRotation(float angle)
+    public void SetCardRotation(float angle, bool instant = false)
     {
-        background.transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
+        if (instant)
+        {
+            background.transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
+        }
+        else {
+            background.transform.DORotate(new Vector3(0, 0, angle), 0.3f);
+        }
+
+        ResetAnimation();
     }
 
     public void SetCardData(CardData newData)
@@ -48,5 +60,27 @@ public class Card : MonoBehaviour
                 background.color = Color.red;
                 break;
         }
+    }
+
+    public void CardPlayedAnimation()
+    {
+        scaleToReset = Vector3.one * 0.8f;
+        background.transform.DOScale(Vector3.one * 0.8f, 0.35f).SetEase(Ease.InOutSine);
+    }    
+
+    public void CardRemovedAnimation()
+    {
+        background.transform.DOScale(Vector3.one, 0.35f).SetEase(Ease.InOutSine);
+    }
+
+    public void SelectedAnimation()
+    {
+        scaleToReset = background.transform.localScale;
+        background.transform.DOScale(Vector3.one * 1.1f, 0.2f);
+    }
+
+    public void ResetAnimation()
+    {
+        background.transform.DOScale(scaleToReset, 0.2f);
     }
 }

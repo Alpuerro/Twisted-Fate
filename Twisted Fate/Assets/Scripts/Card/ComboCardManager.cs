@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using DG.Tweening;
 
 public class ComboEffect
 {
@@ -19,6 +20,13 @@ public class ComboCardManager : MonoBehaviour
 {
     public static ComboCardManager instance;
     public ComboData comboValues;
+
+    [SerializeField] Transform iconsParent;
+    [SerializeField] ComboIcon healthUpIcon;
+    [SerializeField] ComboIcon armourUpIcon;
+    [SerializeField] ComboIcon drawIcon;
+    [SerializeField] ComboIcon stunIcon;
+    [SerializeField] ComboIcon damageUpIcon;
 
     private CardHand _hand;
     private void Awake()
@@ -79,12 +87,14 @@ public class ComboCardManager : MonoBehaviour
 
     private void ProcessHealthUpCombo(int healthUpAmount)
     {
+        CreateIcon(healthUpIcon, healthUpAmount.ToString());
         //TODO hacer que el personaje se suba la vida
         Debug.Log("Vida subida");
     }
 
     private void ProcessArmourUpCombo(int armourUpAmount)
     {
+        CreateIcon(armourUpIcon, armourUpAmount.ToString());
         //TODO hacer que el personaje gane armadura
         Debug.Log("Armadura subida");
     }
@@ -92,6 +102,7 @@ public class ComboCardManager : MonoBehaviour
     private void ProcessDrawCombo(int cardsToDraw)
     {
         if (_hand == null) _hand = FindObjectOfType<CardHand>();
+        CreateIcon(drawIcon, cardsToDraw.ToString());
 
         for (int i = 0; i < cardsToDraw; i++)
         {
@@ -102,15 +113,24 @@ public class ComboCardManager : MonoBehaviour
 
     private void ProcessStunCombo(int turnsToStun)
     {
+        CreateIcon(stunIcon, turnsToStun.ToString());
         //TODO hacer que el enemigo se stunee
         Debug.Log("Stuniado");
     }
 
     private void ProcessDamageUpCombo(float damageUpPercentaje)
     {
+        CreateIcon(damageUpIcon, damageUpPercentaje.ToString());
         //TODO hacer que el jugador gane mas daño
         Debug.Log("Daño subido");
     }
+
+    private void CreateIcon(ComboIcon iconPrefab, string text)
+    {
+        ComboIcon icon = Instantiate(iconPrefab, iconsParent);
+        icon.CreateIcon(text);
+    }
+
 
     private int ProcessDamage(List<CardData> cards)
     {

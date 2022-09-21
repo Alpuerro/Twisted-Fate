@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class CardsPlayedZone : MonoBehaviour, IDropHandler
 {
@@ -12,7 +13,7 @@ public class CardsPlayedZone : MonoBehaviour, IDropHandler
     private CardGraveyard _cardGraveyard;
 
     public List<CardData> cardsPlayed = new List<CardData>();
-    
+
     private void Awake()
     {
         _droppingTransform = transform as RectTransform;
@@ -71,11 +72,23 @@ public class CardsPlayedZone : MonoBehaviour, IDropHandler
 
     public void PlayCards()
     {
-        ComboCardManager.instance.ProcessComboCard(cardsPlayed);
+        for (int i = 0; i < _droppingTransform.childCount; i++)
+        {
+            Sequence playCardSequence = DOTween.Sequence();
 
-        //TODO animacion
-        _cardGraveyard.AddCards(cardsPlayed);
-        ClearZone();
+            playCardSequence.Append(_droppingTransform.GetChild(i).DOShakePosition(0.75f, 4f).SetEase(Ease.InOutSine));
+            playCardSequence.Append(_droppingTransform.GetChild(i).DOLocalMove(Vector3.zero, 0.15f).SetEase(Ease.InOutSine));
+
+            playCardSequence.AppendCallback(() =>
+            {
+                ComboCardManager.instance.ProcessComboCard(cardsPlayed);
+
+                _cardGraveyard.AddCards(cardsPlayed);
+                ClearZone();
+            });
+
+            playCardSequence.Play();
+        }
     }
 
     private void ReorderCardZone()
