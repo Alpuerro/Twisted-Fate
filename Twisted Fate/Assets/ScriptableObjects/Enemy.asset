@@ -12,8 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fbb5d68564dc8e4ca68898d90e574bc, type: 3}
   m_Name: Enemy
   m_EditorClassIdentifier: 
-  enemyType: 0
-  level: 0
+  level: 1
   health: 0
-  baseDamage: 0
+  attack: 0
   defense: 0
+  shield: 0
+  isStunned: 0
+  _damagePerLevelMultiplier: 0
+  _defensePerLevelMultiplier: 0
+  enemySprite: {fileID: 0}
+  actionIcons: {fileID: 0}
+  animator: {fileID: 0}

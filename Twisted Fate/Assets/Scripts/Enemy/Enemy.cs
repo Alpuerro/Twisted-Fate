@@ -1,10 +1,9 @@
+using EnemyData.EnemyAction;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Enemy", menuName = "ScriptableObjects/Enemy")]
 public class Enemy : ScriptableObject
 {
-    [Space(10)]
-    public EnemyType enemyType;
     [Space(10)]
     public int level = 1;
     public int health;
@@ -34,7 +33,8 @@ public class Enemy : ScriptableObject
     public int AttackDamage { get { return (int)(attack * ((level * _damagePerLevelMultiplier) + 1)); } }
     public int ShieldAmmount { get { return (int)(defense * ((level * _defensePerLevelMultiplier) + 1)); } }
 
-    public ref EnemyAction GetEnemyAction()
+    public ref EnemyAction GetAction() => ref enemyAction;
+    public void SetAction()
     {
         enemyAction.enemyActionsType = ((Random.value < 0.5) ? EnemyActionsType.Attack : EnemyActionsType.Defend);
         switch (enemyAction.enemyActionsType)
@@ -49,16 +49,18 @@ public class Enemy : ScriptableObject
                 enemyAction.ammout = 0;
                 break;
         }
-
-        return ref enemyAction;
     }
 }
 
-public struct EnemyAction
+namespace EnemyData
 {
-    public int ammout;
-    public EnemyActionsType enemyActionsType;
+    namespace EnemyAction
+    {
+        public enum EnemyActionsType { Attack, Defend }
+        public struct EnemyAction
+        {
+            public int ammout;
+            public EnemyActionsType enemyActionsType;
+        }
+    }
 }
-
-public enum EnemyType { Small, Medium, Large }
-public enum EnemyActionsType { Attack, Defend }
