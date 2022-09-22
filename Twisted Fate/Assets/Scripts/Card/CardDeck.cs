@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class CardDeck : MonoBehaviour
 {
@@ -82,7 +83,7 @@ public class CardDeck : MonoBehaviour
             Debug.Log("Graveyard al deck");
             foreach (CardData c in _graveyard.GetCards())
             {
-                _cardRemaings.Push(c);   
+                _cardRemaings.Push(c);
             }
             _graveyard.ClearGraveyard();
             ShuffleDeck();

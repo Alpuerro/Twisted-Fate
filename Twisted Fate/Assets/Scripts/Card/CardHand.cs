@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class CardHand : MonoBehaviour
 {
@@ -9,7 +10,7 @@ public class CardHand : MonoBehaviour
     private CardDeck _deck;
     private RectTransform _rectTransform;
 
-    public int handSize = 7;
+    public int handSize = 0;
     public float angleOffset = 7;
     void Start()
     {
@@ -24,7 +25,8 @@ public class CardHand : MonoBehaviour
 
     private void StartGame()
     {
-        for (int i = 0; i < handSize; i++)
+        //draw seven cards at start
+        for (int i = 0; i < 7; i++)
         {
             DrawCard();
         }
@@ -34,6 +36,7 @@ public class CardHand : MonoBehaviour
     {
         if (_rectTransform.childCount > 1)
         {
+            handSize = _rectTransform.childCount;
             RectTransform cardTransform = _rectTransform.GetChild(0).transform as RectTransform;
             if (cardTransform.sizeDelta.x * _rectTransform.childCount > _rectTransform.sizeDelta.x)
             {
@@ -52,11 +55,17 @@ public class CardHand : MonoBehaviour
     [ContextMenu("Draw one card")]
     public void DrawCard()
     {
-        if (_rectTransform.childCount < handSize)
+        Card newCard = _deck.DrawCard();
+        Sequence sequence = DOTween.Sequence();
+
+        float middlePoint = newCard.transform.position.x + (transform.position.x - newCard.transform.position.x) / 2;
+        sequence.Append(newCard.transform.DOMove(transform.position, 1.3f).SetEase(Ease.InOutSine));
+        sequence.Join(newCard.transform.DOMoveY(transform.position.y + 100, 0.6f).SetEase(Ease.InSine));
+        sequence.Join(newCard.transform.DOMoveY(transform.position.y, 0.7f).SetEase(Ease.OutSine).SetDelay(0.6f));
+        sequence.AppendCallback(() =>
         {
-            Card newCard = _deck.DrawCard();
             newCard.transform.parent = transform;
             ReorderHand();
-        }
+        });
     }
 }

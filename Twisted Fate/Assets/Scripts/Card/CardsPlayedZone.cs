@@ -78,14 +78,18 @@ public class CardsPlayedZone : MonoBehaviour, IDropHandler
 
             playCardSequence.Append(_droppingTransform.GetChild(i).DOShakePosition(0.75f, 4f).SetEase(Ease.InOutSine));
             playCardSequence.Append(_droppingTransform.GetChild(i).DOLocalMove(Vector3.zero, 0.15f).SetEase(Ease.InOutSine));
+            playCardSequence.Append(_droppingTransform.GetChild(i).DOMove(_cardGraveyard.transform.position, 0.7f).SetEase(Ease.InOutSine));
 
-            playCardSequence.AppendCallback(() =>
+            if (i == 0) //only do once
             {
-                ComboCardManager.instance.ProcessComboCard(cardsPlayed);
+                playCardSequence.AppendCallback(() =>
+                {
+                    ComboCardManager.instance.ProcessComboCard(cardsPlayed);
 
-                _cardGraveyard.AddCards(cardsPlayed);
-                ClearZone();
-            });
+                    _cardGraveyard.AddCards(cardsPlayed);
+                    ClearZone();
+                });
+            }
 
             playCardSequence.Play();
         }

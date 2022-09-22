@@ -74,6 +74,8 @@ public class ComboCardManager : MonoBehaviour
                     break;
             }
         }
+
+        Player.instance.DealDamageToEnemy(damageAmount);
     }
 
     private void ProcessRainbowCombo()
@@ -88,14 +90,14 @@ public class ComboCardManager : MonoBehaviour
     private void ProcessHealthUpCombo(int healthUpAmount)
     {
         CreateIcon(healthUpIcon, healthUpAmount.ToString());
-        //TODO hacer que el personaje se suba la vida
+        Player.instance.HealthUp(healthUpAmount);
         Debug.Log("Vida subida");
     }
 
     private void ProcessArmourUpCombo(int armourUpAmount)
     {
         CreateIcon(armourUpIcon, armourUpAmount.ToString());
-        //TODO hacer que el personaje gane armadura
+        Player.instance.ArmourUp(armourUpAmount);
         Debug.Log("Armadura subida");
     }
 
@@ -104,24 +106,21 @@ public class ComboCardManager : MonoBehaviour
         if (_hand == null) _hand = FindObjectOfType<CardHand>();
         CreateIcon(drawIcon, cardsToDraw.ToString());
 
-        for (int i = 0; i < cardsToDraw; i++)
-        {
-            _hand.DrawCard();    
-        }
+        Player.instance.DrawCards(cardsToDraw);
         Debug.Log("Cartas robadas");
     }
 
     private void ProcessStunCombo(int turnsToStun)
     {
         CreateIcon(stunIcon, turnsToStun.ToString());
-        //TODO hacer que el enemigo se stunee
+        Player.instance.StunEnemy(turnsToStun);
         Debug.Log("Stuniado");
     }
 
     private void ProcessDamageUpCombo(float damageUpPercentaje)
     {
         CreateIcon(damageUpIcon, damageUpPercentaje.ToString());
-        //TODO hacer que el jugador gane mas daño
+        Player.instance.DamageUp(damageUpPercentaje);
         Debug.Log("Daño subido");
     }
 

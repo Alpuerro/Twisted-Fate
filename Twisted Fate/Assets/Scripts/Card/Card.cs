@@ -10,6 +10,7 @@ public class Card : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI[] _textBoxes;
     [SerializeField] Image background;
+    [SerializeField] RectTransform visualParent;
     private CardData _data;
 
     public Vector3 scaleToReset = Vector3.one;
@@ -23,10 +24,10 @@ public class Card : MonoBehaviour
     {
         if (instant)
         {
-            background.transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
+            visualParent.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
         }
         else {
-            background.transform.DORotate(new Vector3(0, 0, angle), 0.3f);
+            visualParent.DORotate(new Vector3(0, 0, angle), 0.3f);
         }
 
         ResetAnimation();
@@ -65,22 +66,22 @@ public class Card : MonoBehaviour
     public void CardPlayedAnimation()
     {
         scaleToReset = Vector3.one * 0.8f;
-        background.transform.DOScale(Vector3.one * 0.8f, 0.35f).SetEase(Ease.InOutSine);
+        visualParent.DOScale(Vector3.one * 0.8f, 0.35f).SetEase(Ease.InOutSine);
     }    
 
     public void CardRemovedAnimation()
     {
-        background.transform.DOScale(Vector3.one, 0.35f).SetEase(Ease.InOutSine);
+        visualParent.DOScale(Vector3.one, 0.35f).SetEase(Ease.InOutSine);
     }
 
     public void SelectedAnimation()
     {
         scaleToReset = background.transform.localScale;
-        background.transform.DOScale(Vector3.one * 1.1f, 0.2f);
+        visualParent.DOScale(Vector3.one * 1.1f, 0.2f);
     }
 
     public void ResetAnimation()
     {
-        background.transform.DOScale(scaleToReset, 0.2f);
+        visualParent.DOScale(scaleToReset, 0.2f);
     }
 }
