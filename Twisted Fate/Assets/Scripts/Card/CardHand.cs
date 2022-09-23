@@ -47,7 +47,10 @@ public class CardHand : MonoBehaviour
             float angleSpan = angleOffset * _rectTransform.childCount;
             for (int i = 0; i < _rectTransform.childCount; i++)
             {
-                _rectTransform.GetChild(i).GetComponent<Card>().SetCardRotation((angleSpan * 0.5f) - angleOffset * i);
+                Transform cardChild = _rectTransform.GetChild(i);
+                float angleAmount = (angleSpan * 0.5f) - angleOffset * i;
+                cardChild.GetComponent<Card>().SetCardRotation(angleAmount);
+                //cardChild.GetChild(0).localPosition = new Vector3(cardChild.GetChild(0).localPosition.x, cardChild.GetChild(0).localPosition.y - angleAmount, cardChild.GetChild(0).localPosition.z);
             }
         }
     }

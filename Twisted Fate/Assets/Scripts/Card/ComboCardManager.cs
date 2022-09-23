@@ -20,8 +20,10 @@ public class ComboCardManager : MonoBehaviour
 {
     public static ComboCardManager instance;
     public ComboData comboValues;
+    public float tiemBetweenIcons = 0.2f;
 
     [SerializeField] Transform iconsParent;
+    [SerializeField] ComboIcon damageIcon;
     [SerializeField] ComboIcon healthUpIcon;
     [SerializeField] ComboIcon armourUpIcon;
     [SerializeField] ComboIcon drawIcon;
@@ -29,6 +31,9 @@ public class ComboCardManager : MonoBehaviour
     [SerializeField] ComboIcon damageUpIcon;
 
     private CardHand _hand;
+
+    int _damageAmount;
+    List<ComboEffect> _comboEffects = new List<ComboEffect>();
     private void Awake()
     {
         if (instance == null)
@@ -45,37 +50,13 @@ public class ComboCardManager : MonoBehaviour
     public void ProcessComboCard(List<CardData> cards)
     {
         //check damage combo
-        int damageAmount = ProcessDamage(cards);
-        Debug.Log("Damages a hacer: " + damageAmount);
+        _damageAmount = ProcessDamage(cards);
+        Debug.Log("Damages a hacer: " + _damageAmount);
 
         //check effect combo
-        List<ComboEffect> comboEffects = ProcessCombo(cards);
-        foreach (ComboEffect c in comboEffects)
-        {
-            switch (c.comboType)
-            {
-                case 0:
-                    ProcessRainbowCombo();
-                    break;
-                case 1:
-                    ProcessHealthUpCombo(comboValues.healthUpData[c.comboLevel-1]);
-                    break;
-                case 2:
-                    ProcessArmourUpCombo(comboValues.armourUpData[c.comboLevel - 1]);
-                    break;
-                case 3:
-                    ProcessDrawCombo(comboValues.drawData[c.comboLevel - 1]);
-                    break;
-                case 4:
-                    ProcessStunCombo(comboValues.stunData[c.comboLevel - 1]);
-                    break;
-                case 5:
-                    ProcessDamageUpCombo(comboValues.damageUpData[c.comboLevel - 1]);
-                    break;
-            }
-        }
+        _comboEffects = ProcessCombo(cards);
 
-        Player.instance.DealDamageToEnemy(damageAmount);
+        StartCoroutine(ComboAnimation());
     }
 
     private void ProcessRainbowCombo()
@@ -124,12 +105,70 @@ public class ComboCardManager : MonoBehaviour
         Debug.Log("Daño subido");
     }
 
+    private void ProcessDamageCombo()
+    {
+        if (_damageAmount > 0)
+        {
+            CreateIcon(damageIcon, _damageAmount.ToString());
+            Player.instance.DealDamageToEnemy(_damageAmount);
+        }
+    }
+
     private void CreateIcon(ComboIcon iconPrefab, string text)
     {
         ComboIcon icon = Instantiate(iconPrefab, iconsParent);
         icon.CreateIcon(text);
     }
 
+    private IEnumerator ComboAnimation()
+    {
+        ProcessDamageCombo();
+
+        yield return new WaitForSeconds(tiemBetweenIcons);
+
+        foreach (ComboEffect c in _comboEffects)
+        {
+            switch (c.comboType)
+            {
+                case 0:
+                    ProcessRainbowCombo();
+                    break;
+                case 1:
+                    ProcessHealthUpCombo(comboValues.healthUpData[c.comboLevel - 1]);
+                    break;
+                case 2:
+                    ProcessArmourUpCombo(comboValues.armourUpData[c.comboLevel - 1]);
+                    break;
+                case 3:
+                    ProcessDrawCombo(comboValues.drawData[c.comboLevel - 1]);
+                    break;
+                case 4:
+                    ProcessStunCombo(comboValues.stunData[c.comboLevel - 1]);
+                    break;
+                case 5:
+                    ProcessDamageUpCombo(comboValues.damageUpData[c.comboLevel - 1]);
+                    break;
+            }
+
+            yield return new WaitForSeconds(tiemBetweenIcons);
+        }
+
+        yield return new WaitForSeconds(0.3f);
+        ResetCombos();
+        yield return null;
+    }
+
+    private void ResetCombos()
+    {
+        _damageAmount = 0;
+        _comboEffects.Clear();
+        foreach (ComboIcon c in iconsParent.GetComponentsInChildren<ComboIcon>())
+        {
+            c.DestroyIcon();
+        }
+
+        StopAllCoroutines();
+    }   
 
     private int ProcessDamage(List<CardData> cards)
     {

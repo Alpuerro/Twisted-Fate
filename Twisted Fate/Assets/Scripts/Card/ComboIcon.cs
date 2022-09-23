@@ -21,13 +21,18 @@ public class ComboIcon : MonoBehaviour
         if (spawnVFX != null) spawnVFX.Play();
 
         Sequence sequence = DOTween.Sequence();
-        Vector3 finalPosition = transform.position + Vector3.up * 100f;
 
-        sequence.Append(transform.DOScale(Vector3.one, 0.2f));
-        sequence.Join(transform.DOMove(finalPosition, 2.5f));
-        sequence.Join(_canvasGroup.DOFade(0.0f, 1.0f).SetDelay(2));
+        sequence.Append(_canvasGroup.DOFade(1.0f, 0.15f).SetEase(Ease.InOutSine));
+        sequence.Append(transform.DOScale(Vector3.one * 0.9f, 0.1f).SetEase(Ease.InSine));
+
+        sequence.Play();
+    }
+
+    public void DestroyIcon()
+    {
+        Sequence sequence = DOTween.Sequence();
+        sequence.Append(_canvasGroup.DOFade(0.0f, 0.3f).SetEase(Ease.InOutSine).SetDelay(1.5f));
         sequence.AppendCallback(() => Destroy(gameObject));
-
         sequence.Play();
     }
 }

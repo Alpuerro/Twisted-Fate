@@ -7,6 +7,7 @@ public class Player : MonoBehaviour
     public static Player instance;
 
     public PlayerData playerData;
+    public PlayerUIManager uiManager;
     [Space(10)]
     public int health;
     public int armour;
@@ -29,11 +30,27 @@ public class Player : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        if (SharedDataManager.GetDataByKey("firstRound") != null && (bool)SharedDataManager.GetDataByKey("firstRound") == false)
+        {
+            health = (int)SharedDataManager.GetDataByKey("currentHealth");
+        }
+        else 
+        {
+            health = playerData.maxHealth;
+        }
+
+        uiManager.UpdateHealthBar(health, playerData.maxHealth);
+        uiManager.UpdateArmour(armour);
+    }
+
     //TODO todas las animaciones y la comunicacion con la interfaz
 
     public void DamagePlayer(int amount)
     {
         health -= amount;
+        uiManager.UpdateHealthBar(health, playerData.maxHealth);
 
         if (health <= 0) Die();
     }
@@ -53,11 +70,13 @@ public class Player : MonoBehaviour
         health += amount;
 
         health = Mathf.Clamp(health, 0, playerData.maxHealth);
+        uiManager.UpdateHealthBar(health, playerData.maxHealth);
     }
 
     public void ArmourUp(int amount)
     {
         armour += amount;
+        uiManager.UpdateArmour(armour);
     }
 
     public void DrawCards(int amount)

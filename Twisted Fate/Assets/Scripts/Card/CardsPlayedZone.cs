@@ -76,8 +76,8 @@ public class CardsPlayedZone : MonoBehaviour, IDropHandler
         {
             Sequence playCardSequence = DOTween.Sequence();
 
-            playCardSequence.Append(_droppingTransform.GetChild(i).DOShakePosition(0.75f, 4f).SetEase(Ease.InOutSine));
-            playCardSequence.Append(_droppingTransform.GetChild(i).DOLocalMove(Vector3.zero, 0.15f).SetEase(Ease.InOutSine));
+            //playCardSequence.Append(_droppingTransform.GetChild(i).DOShakePosition(0.75f, 4f).SetEase(Ease.InOutSine));
+            playCardSequence.Append(_droppingTransform.GetChild(i).DOLocalMove(Vector3.zero, 0.2f).SetEase(Ease.InOutSine));
             playCardSequence.Append(_droppingTransform.GetChild(i).DOMove(_cardGraveyard.transform.position, 0.7f).SetEase(Ease.InOutSine));
 
             if (i == 0) //only do once
