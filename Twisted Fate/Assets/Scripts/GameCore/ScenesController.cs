@@ -1,24 +1,29 @@
+using SceneNamesspace;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
-/* Scenes index
- * Main     0
- * Menu     1 
- * Combat   2
- * Pause    3
- */
 
 public class ScenesController : MonoBehaviour
 {
     private static AsyncOperation asyncSceneLoad;
 
-    public static void LoadScene(string name)
+    public static void LoadScene(SceneNames name)
     {
-        asyncSceneLoad = SceneManager.LoadSceneAsync(name, LoadSceneMode.Additive);
+        asyncSceneLoad = SceneManager.LoadSceneAsync((int)name, LoadSceneMode.Additive);
     }
 
-    public static void UnloadScene(string name)
+    public static void UnloadScene(SceneNames name)
     {
-        asyncSceneLoad = SceneManager.UnloadSceneAsync(name, UnloadSceneOptions.None);
+        asyncSceneLoad = SceneManager.UnloadSceneAsync((int)name, UnloadSceneOptions.None);
+    }
+}
+
+namespace SceneNamesspace
+{
+    public enum SceneNames
+    {
+        Main,
+        Menu,
+        Combat,
+        Pause
     }
 }
