@@ -5,6 +5,7 @@ public class EnemyData : ScriptableObject
 {
     [Space(10)]
     public int maxHealth;
+    public int maxShield;
     public int attack;
     public int defense;
     public int maxAccumulatedStuns;

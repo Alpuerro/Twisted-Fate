@@ -1,8 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 
-public class PlayerUIManager : MonoBehaviour
+public class EnemyUIManager : MonoBehaviour
 {
     [SerializeField] Slider healthBarFill;
     [SerializeField] Slider shieldBarFill;
@@ -12,14 +11,12 @@ public class PlayerUIManager : MonoBehaviour
 
     public void SetHealthBar(int currentHealth, int maxHealth)
     {
-        healthBarFill.minValue = 0;
         healthBarFill.maxValue = maxHealth;
         healthBarFill.value = currentHealth;
     }
 
     public void SetShieldBar(int currentShield, int maxShield)
     {
-        shieldBarFill.minValue = 0;
         shieldBarFill.maxValue = maxShield;
         shieldBarFill.value = currentShield;
     }

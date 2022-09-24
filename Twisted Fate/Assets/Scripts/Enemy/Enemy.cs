@@ -6,6 +6,7 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     public EnemyData enemyData;
+    public EnemyUIManager uIManager;
 
     public int level = 1;
     public int health;
@@ -35,6 +36,8 @@ public class Enemy : MonoBehaviour
     {
         if (damage <= shield) shield -= damage;
         else health -= damage;
+
+        UpdateUI();
     }
 
     public bool IsAlive() { return health <= 0 ? false : true; }
@@ -46,7 +49,7 @@ public class Enemy : MonoBehaviour
         this.numberOfTurnsStunned = Mathf.Clamp(this.numberOfTurnsStunned, 0, enemyData.maxAccumulatedStuns);
     }
 
-    public void AddShield() { shield += ShieldAmmountToAdd; }
+    public void AddShield() { shield += ShieldAmmountToAdd; UpdateUI(); }
 
     public ref EnemyAction GetAction() { return ref enemyAction; }
     public void SetAction()
@@ -64,5 +67,17 @@ public class Enemy : MonoBehaviour
                 enemyAction.ammout = 0;
                 break;
         }
+    }
+
+    public void SetUI()
+    {
+        uIManager.SetHealthBar(health, enemyData.maxHealth);
+        uIManager.SetShieldBar(shield, enemyData.maxShield);
+    }
+
+    public void UpdateUI()
+    {
+        uIManager.UpdateHealthBar(health);
+        uIManager.UpdateShield(shield);
     }
 }

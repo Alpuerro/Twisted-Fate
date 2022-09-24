@@ -57,9 +57,7 @@ public class GameLoop : MonoBehaviour
             case GameState.Start: GameLoopStart(); break;
             case GameState.PlayerTurn: PlayerTurn(); break;
             case GameState.PlayerAction: PlayerAction(); break;
-            // Escoger una acción aleatoria, hacerla, comprobar si ha terminado la partida y pasar turno
             case GameState.EnemyTurn: EnemyTurn(); break;
-            // Escoger una acción aleatoria, hacerla, comprobar si ha terminado la partida y pasar turno
             case GameState.End: EndLoop(); break;
             default: Debug.LogError("GAME LOOP | Entered an undefined game state"); break;
         }
@@ -78,6 +76,7 @@ public class GameLoop : MonoBehaviour
 
     async void PlayerTurn()
     {
+        Debug.Log($"ENEMY | Health: {enemy.health}  Shield: {enemy.shield}");
         Debug.Log("GAME LOOP | Player turn");
         _cardHand.DrawCard();
         _cardHand.DrawCard();
@@ -121,8 +120,15 @@ public class GameLoop : MonoBehaviour
                 Debug.Log("ENEMY | Enemy action: " + System.Enum.GetName(typeof(EnemyActionsType), enemyAction.enemyActionsType));
                 switch (enemyAction.enemyActionsType)
                 {
-                    case EnemyActionsType.Attack: player.DamagePlayer(enemy.AttackDamage); break;
-                    case EnemyActionsType.Defend: enemy.AddShield(); break;
+                    case EnemyActionsType.Attack:
+                        player.DamagePlayer(enemy.AttackDamage);
+                        Debug.Log($"ENEMY | Damage {enemy.AttackDamage}");
+
+                        break;
+                    case EnemyActionsType.Defend:
+                        enemy.AddShield();
+                        Debug.Log($"ENEMY | Shield {enemy.shield}");
+                        break;
                 }
             }
             //TODO esperar a que se reproduzca una animacion de daño y todas esas cosas
@@ -137,6 +143,7 @@ public class GameLoop : MonoBehaviour
     void PickLoopEnemy()
     {
         enemy.SetEnemyData(_enemiesList.GetRandomElement());
+        enemy.SetUI();
         enemy.SetAction();
     }
 

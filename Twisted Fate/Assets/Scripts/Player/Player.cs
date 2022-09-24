@@ -7,7 +7,7 @@ public class Player : MonoBehaviour
     public static Player instance;
 
     public PlayerData playerData;
-    public PlayerUIManager uiManager;
+    public PlayerUIManager uIManager;
     [Space(10)]
     public int health;
     public int armour;
@@ -36,45 +36,45 @@ public class Player : MonoBehaviour
         {
             health = (int)SharedDataManager.GetDataByKey("currentHealth");
         }
-        else 
+        else
         {
             health = playerData.maxHealth;
         }
 
-        uiManager.UpdateHealthBar(health, playerData.maxHealth);
-        uiManager.UpdateArmour(armour);
+        uIManager.SetHealthBar(health, playerData.maxHealth);
+        uIManager.SetShieldBar(armour, playerData.maxShield);
     }
 
     //TODO todas las animaciones y la comunicacion con la interfaz
 
-    public void DamagePlayer(int amount)
+    public void DamagePlayer(in int amount)
     {
         health -= amount;
-        uiManager.UpdateHealthBar(health, playerData.maxHealth);
+        uIManager.UpdateHealthBar(health);
 
         if (health <= 0) Die();
     }
 
     private void Die()
-    { 
-        
+    {
+
     }
 
-    public void HealthUp(int amount)
+    public void HealthUp(in int amount)
     {
         health += amount;
 
         health = Mathf.Clamp(health, 0, playerData.maxHealth);
-        uiManager.UpdateHealthBar(health, playerData.maxHealth);
+        uIManager.UpdateHealthBar(health);
     }
 
-    public void ArmourUp(int amount)
+    public void ArmourUp(in int amount)
     {
         armour += amount;
-        uiManager.UpdateArmour(armour);
+        uIManager.UpdateShield(armour);
     }
 
-    public void DrawCards(int amount)
+    public void DrawCards(in int amount)
     {
         StartCoroutine(DrawCardProcess(amount));
     }
@@ -94,12 +94,12 @@ public class Player : MonoBehaviour
         yield return null;
     }
 
-    public void StunEnemy(int amount)
+    public void StunEnemy(in int amount)
     {
         GameLoop.Instance.enemy.Stun(amount);
     }
 
-    public void DamageUp(float percentajeAmount)
+    public void DamageUp(in float percentajeAmount)
     {
         damageMultiplier += percentajeAmount;
     }

@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: EnemyData
   m_EditorClassIdentifier: 
   maxHealth: 50
+  maxShield: 25
   attack: 5
   defense: 5
   maxAccumulatedStuns: 2
