@@ -60,11 +60,6 @@ public class Player : MonoBehaviour
         
     }
 
-    public void DealDamageToEnemy(int damage)
-    {
-        //TOdO pegar putaso al enemigo
-    }
-
     public void HealthUp(int amount)
     {
         health += amount;
@@ -101,7 +96,7 @@ public class Player : MonoBehaviour
 
     public void StunEnemy(int amount)
     {
-        //TODO stuniar enemigo
+        GameLoop.Instance.enemy.Stun(amount);
     }
 
     public void DamageUp(float percentajeAmount)

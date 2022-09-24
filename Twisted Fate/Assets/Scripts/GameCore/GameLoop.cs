@@ -20,6 +20,13 @@ public class GameLoop : MonoBehaviour
     public Enemy enemy;
     public Player player;
 
+    [Header("Cards variables")]
+    [SerializeField] CardDeck _deck;
+    [SerializeField] CardHand _cardHand;
+    [SerializeField] CardsPlayedZone _cardZone;
+
+    public int nextDamageAmount = -1;
+
 
     bool _isGameLoopPaused;
 
@@ -32,12 +39,17 @@ public class GameLoop : MonoBehaviour
     private void Start()
     {
         gameState = GameState.Start;
+        if(SceneTransition.instance != null) SceneTransition.instance.FadeOutTransition();
+        GameLoopStart();
     }
 
     private void Update()
     {
         if (Input.anyKey) ManageInput();
+    }
 
+    private void RunCurrentState()
+    {
         switch (gameState)
         {
             case GameState.Pause: break;
@@ -51,44 +63,60 @@ public class GameLoop : MonoBehaviour
             case GameState.End: EndLoop(); break;
             default: Debug.LogError("Entered an undefined game state."); break;
         }
+    }
 
-        #region States Functions
-        void GameLoopStart()
-        {
-            Debug.Log("Game loop start.");
-            PickLoopEnemy();
-            // TD Enemy aparece
-            // TD Se ponen las cartas en la mano
-            gameState = GameState.PlayerTurn;
-        }
+    #region States Functions
+    async void GameLoopStart()
+    {
+        Debug.Log("Game loop start.");
+        PickLoopEnemy();
+        // TD Enemy aparece
+        await enemy.Show();
+        GameEvents.GameStart.Invoke();
+        gameState = GameState.PlayerTurn;
+        RunCurrentState();
+    }
 
-        void PlayerTurn()
-        {
-            Debug.Log("Player turn.");
-            // TD Se desbloquea el interactuar con las cartas
-            // TD Selecciona las cartas que vaya a jugar y le da a pasar turno
-            // if (le ha dado a pasar)
-            gameState = GameState.PlayerAction;
-        }
+    async void PlayerTurn()
+    {
+        Debug.Log("Player turn.");
+        _cardHand.DrawCard();
+        _cardHand.DrawCard();
+        _cardHand._playable = true;
+        //Selecciona las cartas que vaya a jugar y le da a pasar turno
+        await _cardZone.PlayCards();
+        gameState = GameState.PlayerAction;
+        RunCurrentState();
+    }
 
-        void PlayerAction()
-        {
-            Debug.Log("Player action.");
-            // TD Se calcula lo que hacen las cartas
-            if (enemy.TakeDamage(0)) PlayerWin();
-            gameState = GameState.EnemyTurn;
-        }
+    async void PlayerAction()
+    {
+        Debug.Log("Player action.");
+        //Se calcula lo que hacen las cartas
+        await TaskUtils.WaitUntil(() => nextDamageAmount != -1);
+        if (enemy.TakeDamage(nextDamageAmount)) PlayerWin();
+        _cardHand._playable = false;
+        gameState = GameState.EnemyTurn;
+        RunCurrentState();
+    }
 
-        void EnemyTurn()
+    void EnemyTurn()
+    {
+        Debug.Log("Enemy turn");
+        if (enemy.isStunned)
         {
-            Debug.Log("Enemy turn");
-            if (enemy.isStunned)
+            if (enemy.numberOfTurnsStunned > 0)
             {
                 enemy.isStunned = false;
-                gameState = GameState.PlayerTurn;
-                return;
             }
-
+            else
+            {
+                enemy.numberOfTurnsStunned--;
+            }
+            gameState = GameState.PlayerTurn;
+        }
+        else
+        {
             // TD Se aplica el efecto de la accion del enemigo
             ApplyEnemyAction(ref enemy.GetAction());
             enemy.SetAction();
@@ -97,44 +125,47 @@ public class GameLoop : MonoBehaviour
 
             void ApplyEnemyAction(ref EnemyAction enemyAction)
             {
+                Debug.Log("Enemy action:" + enemyAction.ToString());
                 if (enemyAction.enemyActionsType == EnemyActionsType.Attack)
                     player.DamagePlayer(enemy.AttackDamage);
                 if (enemyAction.enemyActionsType == EnemyActionsType.Defend)
                     enemy.AddShield();
             }
+            //TODO esperar a que se reproduzca una animacion de daño y todas esas cosas
         }
+        RunCurrentState();
+    }
 
-        void EndLoop() { }
-        #endregion
+    void EndLoop() { }
+    #endregion
 
-        void PickLoopEnemy()
+    void PickLoopEnemy()
+    {
+        enemy.enemyData = _enemiesList.GetRandomElement();
+        enemy.SetAction();
+    }
+
+    void PlayerWin() { }
+    void EnemyWin() { }
+
+    void ManageInput()
+    {
+        if (Input.GetKeyDown("p"))
         {
-            enemy.enemyData = _enemiesList.GetRandomElement();
-            enemy.SetAction();
-        }
-
-        void PlayerWin() { }
-        void EnemyWin() { }
-
-        void ManageInput()
-        {
-            if (Input.GetKeyDown("p"))
+            if (!_isGameLoopPaused)
             {
-                if (!_isGameLoopPaused)
-                {
-                    Debug.Log("Load Pause");
-                    _isGameLoopPaused = !_isGameLoopPaused;
-                    _previousState = gameState;
-                    gameState = GameState.Pause;
-                    ScenesController.LoadScene(SceneNames.Pause);
-                }
-                else
-                {
-                    Debug.Log("Unload Pause");
-                    _isGameLoopPaused = !_isGameLoopPaused;
-                    gameState = _previousState;
-                    ScenesController.UnloadScene(SceneNames.Pause);
-                }
+                Debug.Log("Load Pause");
+                _isGameLoopPaused = !_isGameLoopPaused;
+                _previousState = gameState;
+                gameState = GameState.Pause;
+                ScenesController.LoadScene(SceneNames.Pause);
+            }
+            else
+            {
+                Debug.Log("Unload Pause");
+                _isGameLoopPaused = !_isGameLoopPaused;
+                gameState = _previousState;
+                ScenesController.UnloadScene(SceneNames.Pause);
             }
         }
     }

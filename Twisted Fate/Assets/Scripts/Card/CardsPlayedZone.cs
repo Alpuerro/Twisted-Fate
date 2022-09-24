@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using DG.Tweening;
+using System.Threading.Tasks;
 
 public class CardsPlayedZone : MonoBehaviour, IDropHandler
 {
@@ -13,6 +14,7 @@ public class CardsPlayedZone : MonoBehaviour, IDropHandler
     private CardGraveyard _cardGraveyard;
 
     public List<CardData> cardsPlayed = new List<CardData>();
+    public bool playCards = false;
 
     private void Awake()
     {
@@ -34,6 +36,11 @@ public class CardsPlayedZone : MonoBehaviour, IDropHandler
                 GameEvents.CardPlayed.Invoke(eventData.pointerDrag.GetComponent<Card>().GetCardData());
             }
         }
+    }
+
+    public void SetPlayCards(bool newValue)
+    {
+        playCards = newValue;
     }
 
     private void AddCard(CardData cardData)
@@ -70,8 +77,9 @@ public class CardsPlayedZone : MonoBehaviour, IDropHandler
         }
     }
 
-    public void PlayCards()
+    public async Task PlayCards()
     {
+        await TaskUtils.WaitUntil(() => playCards == true);
         for (int i = 0; i < _droppingTransform.childCount; i++)
         {
             Sequence playCardSequence = DOTween.Sequence();
@@ -93,6 +101,9 @@ public class CardsPlayedZone : MonoBehaviour, IDropHandler
 
             playCardSequence.Play();
         }
+        playCards = false;
+
+        await Task.Yield();
     }
 
     private void ReorderCardZone()

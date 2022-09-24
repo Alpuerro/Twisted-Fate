@@ -175,15 +175,15 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 3238380012567646845}
         m_TargetAssemblyTypeName: CardsPlayedZone, Assembly-CSharp
-        m_MethodName: PlayCards
-        m_Mode: 1
+        m_MethodName: SetPlayCards
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 0
+          m_BoolArgument: 1
         m_CallState: 2
 --- !u!1 &3238380012102909254
 GameObject:
@@ -314,6 +314,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playButton: {fileID: 3238380011820416832}
+  playCards: 0
 --- !u!222 &3238380012567646819
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -430,6 +431,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   handSize: 0
   angleOffset: 18
+  _playable: 0
 --- !u!114 &3238380012630144988
 MonoBehaviour:
   m_ObjectHideFlags: 0

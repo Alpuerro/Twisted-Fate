@@ -12,6 +12,7 @@ public class CardHand : MonoBehaviour
 
     public int handSize = 0;
     public float angleOffset = 7;
+    public bool _playable = false;
     void Start()
     {
         _layoutGroup = GetComponent<HorizontalLayoutGroup>();

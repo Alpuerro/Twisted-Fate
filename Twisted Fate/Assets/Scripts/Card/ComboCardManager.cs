@@ -110,7 +110,6 @@ public class ComboCardManager : MonoBehaviour
         if (_damageAmount > 0)
         {
             CreateIcon(damageIcon, _damageAmount.ToString());
-            Player.instance.DealDamageToEnemy(_damageAmount);
         }
     }
 
@@ -152,6 +151,8 @@ public class ComboCardManager : MonoBehaviour
 
             yield return new WaitForSeconds(tiemBetweenIcons);
         }
+        //TODO hacer que se aplique el multiplicador de daño
+        GameLoop.Instance.nextDamageAmount = _damageAmount;
 
         yield return new WaitForSeconds(0.3f);
         ResetCombos();
@@ -161,6 +162,7 @@ public class ComboCardManager : MonoBehaviour
     private void ResetCombos()
     {
         _damageAmount = 0;
+        GameLoop.Instance.nextDamageAmount = -1;
         _comboEffects.Clear();
         foreach (ComboIcon c in iconsParent.GetComponentsInChildren<ComboIcon>())
         {
