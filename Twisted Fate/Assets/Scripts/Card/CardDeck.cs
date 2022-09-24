@@ -23,8 +23,8 @@ public class CardDeck : MonoBehaviour
     }
 
     private void CreateNewDeck()
-    { 
-        for(int i = 0; i < 100; i++)
+    {
+        for (int i = 0; i < 100; i++)
         {
             if (i == 0)
             {
@@ -32,13 +32,13 @@ public class CardDeck : MonoBehaviour
                 _cardRemaings.Push(new CardData(i, 0));
                 continue;
             }
-            if ((i >= 1 && i <=19))
+            if ((i >= 1 && i <= 19))
             {
                 //health card
                 _cardRemaings.Push(new CardData(i, 1));
                 continue;
             }
-            if ((i >=20 && i <= 39))
+            if ((i >= 20 && i <= 39))
             {
                 //armour card
                 _cardRemaings.Push(new CardData(i, 2));
@@ -76,7 +76,7 @@ public class CardDeck : MonoBehaviour
         Card newCard = Instantiate(cardPrefab, transform);
         if (_cardRemaings.Count > 0) newCard.SetCardData(_cardRemaings.Pop());
         else newCard.SetCardData(new CardData(0, 0)); //only in case, it shouldnt happend
-        Debug.Log(_cardRemaings.Count);
+        // Debug.Log(_cardRemaings.Count);
 
         if (_cardRemaings.Count <= 1)
         {

@@ -68,7 +68,7 @@ public class CardHand : MonoBehaviour
         sequence.Join(newCard.transform.DOMoveY(transform.position.y, 0.7f).SetEase(Ease.OutSine).SetDelay(0.6f));
         sequence.AppendCallback(() =>
         {
-            newCard.transform.parent = transform;
+            newCard.transform.SetParent(transform, false);
             ReorderHand();
         });
     }

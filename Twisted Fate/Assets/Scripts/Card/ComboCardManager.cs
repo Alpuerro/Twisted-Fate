@@ -41,7 +41,7 @@ public class ComboCardManager : MonoBehaviour
             instance = this;
             DontDestroyOnLoad(instance);
         }
-        else 
+        else
         {
             Destroy(this);
         }
@@ -51,7 +51,7 @@ public class ComboCardManager : MonoBehaviour
     {
         //check damage combo
         _damageAmount = ProcessDamage(cards);
-        Debug.Log("Damages a hacer: " + _damageAmount);
+        Debug.Log("PLAYER | Damages a hacer: " + _damageAmount);
 
         //check effect combo
         _comboEffects = ProcessCombo(cards);
@@ -72,14 +72,14 @@ public class ComboCardManager : MonoBehaviour
     {
         CreateIcon(healthUpIcon, healthUpAmount.ToString());
         Player.instance.HealthUp(healthUpAmount);
-        Debug.Log("Vida subida");
+        Debug.Log("PLAYER | Vida subida");
     }
 
     private void ProcessArmourUpCombo(int armourUpAmount)
     {
         CreateIcon(armourUpIcon, armourUpAmount.ToString());
         Player.instance.ArmourUp(armourUpAmount);
-        Debug.Log("Armadura subida");
+        Debug.Log("PLAYER | Armadura subida");
     }
 
     private void ProcessDrawCombo(int cardsToDraw)
@@ -88,21 +88,21 @@ public class ComboCardManager : MonoBehaviour
         CreateIcon(drawIcon, cardsToDraw.ToString());
 
         Player.instance.DrawCards(cardsToDraw);
-        Debug.Log("Cartas robadas");
+        Debug.Log("PLAYER | Cartas robadas");
     }
 
     private void ProcessStunCombo(int turnsToStun)
     {
         CreateIcon(stunIcon, turnsToStun.ToString());
         Player.instance.StunEnemy(turnsToStun);
-        Debug.Log("Stuniado");
+        Debug.Log("PLAYER | Enemigo stuniado");
     }
 
     private void ProcessDamageUpCombo(float damageUpPercentaje)
     {
         CreateIcon(damageUpIcon, damageUpPercentaje.ToString());
         Player.instance.DamageUp(damageUpPercentaje);
-        Debug.Log("Daño subido");
+        Debug.Log("PLAYER | DaÃ±o subido");
     }
 
     private void ProcessDamageCombo()
@@ -151,7 +151,7 @@ public class ComboCardManager : MonoBehaviour
 
             yield return new WaitForSeconds(tiemBetweenIcons);
         }
-        //TODO hacer que se aplique el multiplicador de daño
+        //TODO hacer que se aplique el multiplicador de daï¿½o
         GameLoop.Instance.nextDamageAmount = _damageAmount;
 
         yield return new WaitForSeconds(0.3f);
@@ -170,7 +170,7 @@ public class ComboCardManager : MonoBehaviour
         }
 
         StopAllCoroutines();
-    }   
+    }
 
     private int ProcessDamage(List<CardData> cards)
     {
@@ -194,7 +194,7 @@ public class ComboCardManager : MonoBehaviour
             {
                 lastAmount = amount;
             }
-            if(lastUnits < numberUnits)
+            if (lastUnits < numberUnits)
             {
                 lastUnits = numberUnits;
             }
@@ -202,7 +202,7 @@ public class ComboCardManager : MonoBehaviour
 
         if (lastUnits >= 2)
             return lastAmount;
-        else 
+        else
             return 0;
     }
 
@@ -226,7 +226,7 @@ public class ComboCardManager : MonoBehaviour
                 }
             }
 
-            if (comboLevel >= 1 || (newType == 0)) 
+            if (comboLevel >= 1 || (newType == 0))
             {
                 comboEffects.Add(new ComboEffect(newType, comboLevel));
             }
