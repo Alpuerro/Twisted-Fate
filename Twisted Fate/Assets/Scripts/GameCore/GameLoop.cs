@@ -8,7 +8,7 @@ public class GameLoop : MonoBehaviour
     public static GameLoop Instance;
 
     public GameState currentGameState;
-    private GameState _previousState;
+    private int round;
 
     /// <summary> All existing enemies. </summary>
     [SerializeField]
@@ -27,8 +27,6 @@ public class GameLoop : MonoBehaviour
 
     public int nextDamageAmount = -1;
 
-
-    bool _isGameLoopPaused;
 
     private void Awake()
     {
@@ -89,16 +87,18 @@ public class GameLoop : MonoBehaviour
     async void PlayerAction()
     {
         Debug.Log("GAME LOOP | Player action");
+        GameState localGameState = GameState.EnemyTurn;
         //Se calcula lo que hacen las cartas
         await TaskUtils.WaitUntil(() => nextDamageAmount != -1);
         enemy.TakeDamage(nextDamageAmount);
-        if (!enemy.IsAlive()) PlayerWins();
+        if (!enemy.IsAlive()) { PlayerWins(); localGameState = GameState.End; }
         _cardHand._playable = false;
-        RunGameState(GameState.EnemyTurn);
+        RunGameState(localGameState);
     }
 
     void EnemyTurn()
     {
+        GameState localGameState = GameState.PlayerTurn;
         Debug.Log("GAME LOOP | Enemy turn");
         Debug.Log($"ENEMY | Health: {enemy.health}  Shield: {enemy.shield}");
         if (enemy.isStunned)
@@ -113,7 +113,7 @@ public class GameLoop : MonoBehaviour
             // TD Se aplica el efecto de la accion del enemigo
             ApplyEnemyAction(ref enemy.GetAction());
             enemy.SetAction();
-            if (player.health <= 0) EnemyWins();
+            if (player.health <= 0) { EnemyWins(); localGameState = GameState.End; }
 
             void ApplyEnemyAction(ref EnemyAction enemyAction)
             {
@@ -134,7 +134,7 @@ public class GameLoop : MonoBehaviour
             //TODO esperar a que se reproduzca una animacion de daño y todas esas cosas
         }
 
-        RunGameState(GameState.PlayerTurn);
+        RunGameState(localGameState);
     }
 
     void EndLoop() { }
