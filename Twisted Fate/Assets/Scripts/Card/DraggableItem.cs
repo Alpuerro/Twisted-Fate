@@ -25,7 +25,9 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        transform.parent = _canvas.transform;
+        Vector3 position = transform.position;
+        transform.SetParent(_canvas.transform, false);
+        transform.position = position;
         _canvasGroup.blocksRaycasts = false;
         _card.scaleToReset = Vector3.one;
         _card.SetCardRotation(0);
@@ -44,7 +46,7 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     {
         if (!onZone)
         {
-            transform.parent = FindObjectOfType<CardHand>().transform;
+            transform.SetParent(FindObjectOfType<CardHand>().transform, false);
             GameEvents.CardRemoved.Invoke(_card.GetCardData());
         }
         _canvasGroup.blocksRaycasts = true;
@@ -54,7 +56,7 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     {
         onZone = true;
         _card.CardPlayedAnimation();
-        transform.parent = newParent;
+        transform.SetParent(newParent, false);
         transform.position = position;
     }
 
@@ -66,7 +68,7 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if(!onZone)
+        if (!onZone)
             _card.SelectedAnimation();
     }
 }

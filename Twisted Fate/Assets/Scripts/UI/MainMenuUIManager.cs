@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using SceneNamesspace;
 
 public class MainMenuUIManager : MonoBehaviour
 {
@@ -15,7 +16,8 @@ public class MainMenuUIManager : MonoBehaviour
 
     public void StartGame()
     {
-        SceneTransition.instance.FadeInTransition(2);
+        SceneTransition.instance.FadeInTransition(SceneNames.Combat);
+        ScenesController.UnloadScene(SceneNames.Menu);
     }
 
     public void ShowCredits()

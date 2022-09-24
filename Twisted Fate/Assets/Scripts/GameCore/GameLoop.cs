@@ -7,7 +7,7 @@ public class GameLoop : MonoBehaviour
 {
     public static GameLoop Instance;
 
-    public GameState gameState;
+    public GameState currentGameState;
     private GameState _previousState;
 
     /// <summary> All existing enemies. </summary>
@@ -38,102 +38,97 @@ public class GameLoop : MonoBehaviour
 
     private void Start()
     {
-        gameState = GameState.Start;
-        if(SceneTransition.instance != null) SceneTransition.instance.FadeOutTransition();
+        currentGameState = GameState.Start;
+        if (SceneTransition.instance != null) SceneTransition.instance.FadeOutTransition();
         GameLoopStart();
     }
 
     private void Update()
     {
-        if (Input.anyKey) ManageInput();
+
     }
 
-    private void RunCurrentState()
+    private void RunGameState(GameState gameState)
     {
+        currentGameState = gameState;
         switch (gameState)
         {
             case GameState.Pause: break;
             case GameState.Start: GameLoopStart(); break;
             case GameState.PlayerTurn: PlayerTurn(); break;
-            // Realizar la acción, comprobar si ha terminado la partida y pasar al turno del enemigo
             case GameState.PlayerAction: PlayerAction(); break;
             // Escoger una acción aleatoria, hacerla, comprobar si ha terminado la partida y pasar turno
             case GameState.EnemyTurn: EnemyTurn(); break;
             // Escoger una acción aleatoria, hacerla, comprobar si ha terminado la partida y pasar turno
             case GameState.End: EndLoop(); break;
-            default: Debug.LogError("Entered an undefined game state."); break;
+            default: Debug.LogError("GAME LOOP | Entered an undefined game state"); break;
         }
     }
 
     #region States Functions
     async void GameLoopStart()
     {
-        Debug.Log("Game loop start.");
+        Debug.Log("GAME LOOP | Game loop start");
         PickLoopEnemy();
         // TD Enemy aparece
         await enemy.Show();
         GameEvents.GameStart.Invoke();
-        gameState = GameState.PlayerTurn;
-        RunCurrentState();
+        RunGameState(GameState.PlayerTurn);
     }
 
     async void PlayerTurn()
     {
-        Debug.Log("Player turn.");
+        Debug.Log("GAME LOOP | Player turn");
         _cardHand.DrawCard();
         _cardHand.DrawCard();
         _cardHand._playable = true;
         //Selecciona las cartas que vaya a jugar y le da a pasar turno
         await _cardZone.PlayCards();
-        gameState = GameState.PlayerAction;
-        RunCurrentState();
+        RunGameState(GameState.PlayerAction);
     }
 
     async void PlayerAction()
     {
-        Debug.Log("Player action.");
+        Debug.Log("GAME LOOP | Player action");
         //Se calcula lo que hacen las cartas
         await TaskUtils.WaitUntil(() => nextDamageAmount != -1);
-        if (enemy.TakeDamage(nextDamageAmount)) PlayerWin();
+        enemy.TakeDamage(nextDamageAmount);
+        if (!enemy.IsAlive()) PlayerWins();
         _cardHand._playable = false;
-        gameState = GameState.EnemyTurn;
-        RunCurrentState();
+        RunGameState(GameState.EnemyTurn);
     }
 
     void EnemyTurn()
     {
-        Debug.Log("Enemy turn");
+        Debug.Log("GAME LOOP | Enemy turn");
+        Debug.Log($"ENEMY | Health: {enemy.health}  Shield: {enemy.shield}");
         if (enemy.isStunned)
         {
-            if (enemy.numberOfTurnsStunned > 0)
-            {
-                enemy.isStunned = false;
-            }
-            else
-            {
-                enemy.numberOfTurnsStunned--;
-            }
-            gameState = GameState.PlayerTurn;
+            if (enemy.numberOfTurnsStunned > 0) Debug.Log("ENEMY | Not stunned");
+            if (enemy.numberOfTurnsStunned > 0) enemy.isStunned = false;
+            else enemy.numberOfTurnsStunned--;
+            enemy.SetAction();
         }
         else
         {
             // TD Se aplica el efecto de la accion del enemigo
             ApplyEnemyAction(ref enemy.GetAction());
             enemy.SetAction();
-            gameState = GameState.PlayerTurn;
-            if (player.health <= 0) EnemyWin();
+            if (player.health <= 0) EnemyWins();
 
             void ApplyEnemyAction(ref EnemyAction enemyAction)
             {
-                Debug.Log("Enemy action:" + enemyAction.ToString());
-                if (enemyAction.enemyActionsType == EnemyActionsType.Attack)
-                    player.DamagePlayer(enemy.AttackDamage);
-                if (enemyAction.enemyActionsType == EnemyActionsType.Defend)
-                    enemy.AddShield();
+                Debug.Log("ENEMY | Enemy action: " + System.Enum.GetName(typeof(EnemyActionsType), enemyAction.enemyActionsType));
+                switch (enemyAction.enemyActionsType)
+                {
+                    case EnemyActionsType.Attack: player.DamagePlayer(enemy.AttackDamage); break;
+                    case EnemyActionsType.Defend: enemy.AddShield(); break;
+                }
             }
             //TODO esperar a que se reproduzca una animacion de daño y todas esas cosas
         }
-        RunCurrentState();
+
+        RunGameState(GameState.PlayerTurn);
     }
 
     void EndLoop() { }
@@ -141,34 +136,12 @@ public class GameLoop : MonoBehaviour
 
     void PickLoopEnemy()
     {
-        enemy.enemyData = _enemiesList.GetRandomElement();
+        enemy.SetEnemyData(_enemiesList.GetRandomElement());
         enemy.SetAction();
     }
 
-    void PlayerWin() { }
-    void EnemyWin() { }
-
-    void ManageInput()
-    {
-        if (Input.GetKeyDown("p"))
-        {
-            if (!_isGameLoopPaused)
-            {
-                Debug.Log("Load Pause");
-                _isGameLoopPaused = !_isGameLoopPaused;
-                _previousState = gameState;
-                gameState = GameState.Pause;
-                ScenesController.LoadScene(SceneNames.Pause);
-            }
-            else
-            {
-                Debug.Log("Unload Pause");
-                _isGameLoopPaused = !_isGameLoopPaused;
-                gameState = _previousState;
-                ScenesController.UnloadScene(SceneNames.Pause);
-            }
-        }
-    }
+    void PlayerWins() { Debug.Log("GAME LOOP | Player wins"); }
+    void EnemyWins() { Debug.Log("GAME LOOP | Enemy wins"); }
 }
 
 public enum GameState

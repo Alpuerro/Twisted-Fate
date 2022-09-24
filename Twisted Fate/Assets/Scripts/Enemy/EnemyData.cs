@@ -4,19 +4,15 @@ using UnityEngine;
 public class EnemyData : ScriptableObject
 {
     [Space(10)]
-    public int health;
+    public int maxHealth;
     public int attack;
     public int defense;
-    public int shield;
+    public int maxAccumulatedStuns;
 
     [Space(10)]
     [Range(0, 1)]
-    [Tooltip("Percentage of the level that is multiplied to the base damage stat.")]
-    /// <summary> Percentage of the level that is multiplied to the base damage stat. </summary>
     public float _damagePerLevelMultiplier;
     [Range(0, 1)]
-    [Tooltip("Percentage of the level that is multiplied to the base defense stat.")]
-    /// <summary> Percentage of the level that is multiplied to the base defense stat. </summary>
     public float _defensePerLevelMultiplier;
 
     [Space(10)]

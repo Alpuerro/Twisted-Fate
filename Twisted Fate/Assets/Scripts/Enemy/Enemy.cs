@@ -8,6 +8,8 @@ public class Enemy : MonoBehaviour
     public EnemyData enemyData;
 
     public int level = 1;
+    public int health;
+    public int shield;
     public bool isStunned;
     public int numberOfTurnsStunned = 0;
     private EnemyAction enemyAction;
@@ -15,32 +17,36 @@ public class Enemy : MonoBehaviour
     public int AttackDamage { get { return (int)(enemyData.attack * ((level * enemyData._damagePerLevelMultiplier) + 1)); } }
     public int ShieldAmmountToAdd { get { return (int)(enemyData.defense * ((level * enemyData._defensePerLevelMultiplier) + 1)); } }
 
-    public void SetEnemyData(EnemyData eData) => enemyData = eData;
+    public void SetEnemyData(in EnemyData enemyData)
+    {
+        this.enemyData = enemyData;
+        health = this.enemyData.maxHealth;
+        shield = 0;
+        isStunned = false;
+        numberOfTurnsStunned = 0;
+    }
 
     public async Task Show()
     {
         await Task.Yield();
     }
 
-    /// <returns>True if its still alive.</returns>
-    public bool TakeDamage(in int dmg)
+    public void TakeDamage(in int damage)
     {
-        if (dmg <= enemyData.shield) enemyData.shield -= dmg;
-        else if (enemyData.health <= dmg) return false;
-        else enemyData.health -= dmg;
-
-        return true;
+        if (damage <= shield) shield -= damage;
+        else health -= damage;
     }
+
+    public bool IsAlive() { return health <= 0 ? false : true; }
 
     public void Stun(int numberOfTurnsStunned)
     {
         isStunned = true;
         this.numberOfTurnsStunned += numberOfTurnsStunned;
-        //max of turns to be stunned, this should be externalzed
-        this.numberOfTurnsStunned = Mathf.Clamp(this.numberOfTurnsStunned, 0, 3);
+        this.numberOfTurnsStunned = Mathf.Clamp(this.numberOfTurnsStunned, 0, enemyData.maxAccumulatedStuns);
     }
 
-    public void AddShield() { enemyData.shield += ShieldAmmountToAdd; }
+    public void AddShield() { shield += ShieldAmmountToAdd; }
 
     public ref EnemyAction GetAction() { return ref enemyAction; }
     public void SetAction()

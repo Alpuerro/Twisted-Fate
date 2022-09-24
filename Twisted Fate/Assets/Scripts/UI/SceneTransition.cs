@@ -1,7 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using SceneNamesspace;
 
 public class SceneTransition : MonoBehaviour
 {
@@ -14,20 +13,20 @@ public class SceneTransition : MonoBehaviour
             instance = this;
             DontDestroyOnLoad(instance);
         }
-        else 
+        else
         {
             Destroy(this);
         }
     }
 
-    public void FadeInTransition(int sceneToLoad)
+    public void FadeInTransition(SceneNames sceneName)
     {
         Sequence fadeIn = DOTween.Sequence();
 
         fadeIn.Append(transform.DOLocalMoveX(0.0f, 0.8f).SetEase(Ease.InOutSine));
         fadeIn.AppendCallback(() =>
         {
-            ScenesController.LoadScene((SceneNamesspace.SceneNames)sceneToLoad);
+            ScenesController.LoadScene(sceneName);
         });
 
         fadeIn.Play();
