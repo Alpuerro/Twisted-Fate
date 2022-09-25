@@ -10,6 +10,8 @@ public class PlayerUIManager : MonoBehaviour
     [SerializeField] Image[] healthBarFaders;
     [SerializeField] Image shieldBarFill;
     [SerializeField] Image shieldBarFader;
+    [SerializeField] Image damageTint;
+
 
     int currentHealthBar = 2;
     public async Task UpdateHealthBar(float currentHealth)
@@ -21,6 +23,16 @@ public class PlayerUIManager : MonoBehaviour
     {
         StartCoroutine(AnimateBar(shieldBarFader, shieldBarFill, currentShield));
         await Task.Yield();
+    }
+
+    public void DamageFeedback()
+    {
+        Sequence damageFeedback = DOTween.Sequence();
+        damageFeedback.Append(transform.DOShakePosition(0.5f, 30));
+        damageFeedback.Join(damageTint.DOFade(0.5f, 0.1f));
+        damageFeedback.Append(damageTint.DOFade(0.0f, 0.2f));
+
+        damageFeedback.Play();
     }
 
     public void SetHealthBar(int currentHealth, int maxHealth)

@@ -46,7 +46,6 @@ public class Player : MonoBehaviour
         uIManager.SetShieldBar(armour, playerData.maxShield);
     }
 
-    //TODO todas las animaciones y la comunicacion con la interfaz
     public async Task UpdateUIBars()
     {
         await uIManager.UpdateHealthBar((float)health / playerData.maxHealth);
@@ -57,6 +56,7 @@ public class Player : MonoBehaviour
     public void DamagePlayer(in int amount)
     {
         health -= amount;
+        uIManager.DamageFeedback();
 
         if (health <= 0) Die();
     }
