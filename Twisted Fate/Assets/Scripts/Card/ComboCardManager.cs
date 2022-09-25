@@ -36,15 +36,8 @@ public class ComboCardManager : MonoBehaviour
     List<ComboEffect> _comboEffects = new List<ComboEffect>();
     private void Awake()
     {
-        if (instance == null)
-        {
-            instance = this;
-            DontDestroyOnLoad(instance);
-        }
-        else
-        {
-            Destroy(this);
-        }
+        if (instance == null) instance = this;
+        else Destroy(this);
     }
 
     public void ProcessComboCard(List<CardData> cards)

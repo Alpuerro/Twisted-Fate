@@ -51,13 +51,13 @@ public class Enemy : MonoBehaviour
     public void Stun(int numberOfTurnsStunned)
     {
         isStunned = true;
-        this.numberOfTurnsStunned += numberOfTurnsStunned;
-        this.numberOfTurnsStunned = Mathf.Clamp(this.numberOfTurnsStunned, 0, enemyData.maxAccumulatedStuns);
+        if (this.numberOfTurnsStunned < enemyData.maxAccumulatedStuns)
+            this.numberOfTurnsStunned += numberOfTurnsStunned;
     }
 
     public void AddShield()
     {
-        shield += ShieldAmmountToAdd;
+        if (shield < enemyData.maxShield) shield += ShieldAmmountToAdd;
         Task task = UpdateUI();
     }
 

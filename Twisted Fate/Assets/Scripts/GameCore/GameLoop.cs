@@ -1,3 +1,4 @@
+using System.Collections;
 using EnemyInfo;
 using SceneNamesspace;
 using UnityEngine;
@@ -32,6 +33,7 @@ public class GameLoop : MonoBehaviour
     {
         currentGameState = GameState.Start;
         if (SceneTransition.instance != null) SceneTransition.instance.FadeOutTransition();
+        player = GameObject.FindObjectOfType<Player>();
         GameLoopStart();
     }
 
@@ -143,7 +145,7 @@ public class GameLoop : MonoBehaviour
         int round = (int)SharedDataManager.GetDataByKey("round");
         SharedDataManager.SetDataByKey("round", round + 1);
         SharedDataManager.SetDataByKey("score", round);
-        // Corrutina para mostrar que ha ganado
+        WinCoroutine();
         ScenesController.ReloadScene(SceneNames.Combat);
     }
 
@@ -152,10 +154,18 @@ public class GameLoop : MonoBehaviour
         Debug.Log("GAME LOOP | Enemy wins");
         if ((int)SharedDataManager.GetDataByKey("score") < (int)SharedDataManager.GetDataByKey("round"))
             SharedDataManager.SetDataByKey("score", (int)SharedDataManager.GetDataByKey("round"));
-
-        // Corrutina para mostrar que ha perdido
+        LooseCoroutine();
         ScenesController.LoadScene(SceneNames.Menu);
         ScenesController.UnloadScene(SceneNames.Combat);
+    }
+
+    IEnumerator WinCoroutine()
+    {
+        yield return new WaitForSeconds(3);
+    }
+    IEnumerator LooseCoroutine()
+    {
+        yield return new WaitForSeconds(3);
     }
 }
 
