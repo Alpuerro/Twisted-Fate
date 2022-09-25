@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Threading.Tasks;
+using DG.Tweening;
 
 public class EnemyUIManager : MonoBehaviour
 {
@@ -20,6 +21,15 @@ public class EnemyUIManager : MonoBehaviour
         StartCoroutine(AnimateBar(shieldBarFader, shieldBarFill, currentShield));
         await Task.Yield();
     }
+
+    public void DamageFeedback()
+    {
+        Sequence damageFeedback = DOTween.Sequence();
+        damageFeedback.Append(transform.DOShakePosition(0.5f, 30));
+
+        damageFeedback.Play();
+    }
+
 
     public void SetHealthBar(int currentHealth, int maxHealth)
     {

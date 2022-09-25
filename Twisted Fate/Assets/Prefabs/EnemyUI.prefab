@@ -211,6 +211,7 @@ MonoBehaviour:
   actionIcons:
   - {fileID: 4489228815172564545}
   - {fileID: 6883132895432119498}
+  damageTint: {fileID: 0}
 --- !u!1 &951786706327493980
 GameObject:
   m_ObjectHideFlags: 0
