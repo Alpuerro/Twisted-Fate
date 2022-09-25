@@ -399,13 +399,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df9d0846749a027489bd0bc23c180a28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyType: 
   enemyData: {fileID: 0}
-  uIManager: {fileID: 2017640209}
   level: 1
   health: 0
   shield: 0
   isStunned: 0
   numberOfTurnsStunned: 0
+  uIManager: {fileID: 2017640209}
 --- !u!1 &1415957748
 GameObject:
   m_ObjectHideFlags: 0

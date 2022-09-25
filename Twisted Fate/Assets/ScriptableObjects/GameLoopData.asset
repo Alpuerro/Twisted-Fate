@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6dadf2d60a50a94e9cc5f44ef103358, type: 3}
   m_Name: GameLoopData
   m_EditorClassIdentifier: 
-  round: 2
-  score: 0
+  round: 1
+  maxScore: 0
