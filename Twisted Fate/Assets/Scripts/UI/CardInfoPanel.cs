@@ -31,6 +31,7 @@ public class CardInfoPanel : MonoBehaviour
             }
         }
         startPosition = transform.localPosition;
+        SetTexts();
         GameEvents.ComboPlayed.AddListener(ChangeInfo);
     }
 
@@ -80,7 +81,15 @@ public class CardInfoPanel : MonoBehaviour
     }
 
     private void SetTexts()
-    { 
-        
+    {
+        for (int i = 0; i < numberCardsRemaining.Length; i++)
+        {
+            cardByNumberTexts[i].text = numberCardsRemaining[i].ToString();
+        }
+
+        for (int i = 0; i < typeCardsRemaining.Length; i++)
+        {
+            cardByTypeTexts[i].text = typeCardsRemaining[i].ToString();
+        }
     }
 }
