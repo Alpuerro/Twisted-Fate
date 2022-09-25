@@ -10,6 +10,7 @@ public class Card : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI[] _textBoxes;
     [SerializeField] Image background;
+    [SerializeField] Sprite[] cardSprites;
     [SerializeField] RectTransform visualParent;
     private CardData _data;
 
@@ -38,29 +39,9 @@ public class Card : MonoBehaviour
         _data = newData;
         foreach (TextMeshProUGUI t in _textBoxes)
         {
-            t.text = _data.GetNumber().ToString();
+            t.text = "<color=#96e8ff>"+_data.GetNumberDecens().ToString()+ "</color>"+_data.GetNumberUnits().ToString();
         }
-        switch (_data.cardType)
-        {
-            case 0:
-                background.color = Color.grey;
-                break;
-            case 1:
-                background.color = Color.green;
-                break;
-            case 2:
-                background.color = Color.yellow;
-                break;
-            case 3:
-                background.color = Color.cyan;
-                break;
-            case 4:
-                background.color = Color.blue;
-                break;
-            case 5:
-                background.color = Color.red;
-                break;
-        }
+        background.sprite = cardSprites[_data.cardType];
     }
 
     public void CardPlayedAnimation()
