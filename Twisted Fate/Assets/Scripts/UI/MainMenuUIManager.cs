@@ -13,6 +13,7 @@ public class MainMenuUIManager : MonoBehaviour
     {
         if (SceneTransition.instance != null) SceneTransition.instance.FadeOutTransition();
         startPositionCredits = creditsPanel.transform.localPosition;
+        SharedDataManager.SetDataByKey("round", 1);
     }
 
     public void StartGame()

@@ -7,7 +7,6 @@ public class GameLoop : MonoBehaviour
     public static GameLoop Instance;
 
     private int score;
-    public GameLoopData gameLoopData;
     public GameState currentGameState;
     [Space(10)]
     public Enemy enemy;
@@ -132,7 +131,7 @@ public class GameLoop : MonoBehaviour
 
     void PickLoopEnemy()
     {
-        enemy.SetEnemyData(enemieTypesList.GetRandomElement(), gameLoopData.round);
+        enemy.SetEnemyData(enemieTypesList.GetRandomElement(), (int)SharedDataManager.GetDataByKey("round"));
         enemy.SetUI();
         enemy.SetAction();
     }
@@ -140,15 +139,17 @@ public class GameLoop : MonoBehaviour
     void PlayerWins()
     {
         Debug.Log("GAME LOOP | Player wins");
-        gameLoopData.round++;
-        gameLoopData.UpdateScore(score);
+        int round = (int)SharedDataManager.GetDataByKey("round");
+        SharedDataManager.SetDataByKey("round", round + 1);
+        SharedDataManager.SetDataByKey("score", round);
         GameLoopStart();
     }
 
     void EnemyWins()
     {
         Debug.Log("GAME LOOP | Enemy wins");
-        gameLoopData.UpdateScore(score);
+        if ((int)SharedDataManager.GetDataByKey("score") < (int)SharedDataManager.GetDataByKey("round"))
+            SharedDataManager.SetDataByKey("score", (int)SharedDataManager.GetDataByKey("round"));
     }
 }
 

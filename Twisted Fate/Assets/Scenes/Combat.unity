@@ -1324,9 +1324,25 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7993324807276840014, guid: 3813f424354791046b1db71585d0568f, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7993324807276840014, guid: 3813f424354791046b1db71585d0568f, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 7993324806146552111, guid: 3813f424354791046b1db71585d0568f, type: 3}
+      objectReference: {fileID: 1028597044}
+    - target: {fileID: 7993324807276840014, guid: 3813f424354791046b1db71585d0568f, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ReloadScene
+      objectReference: {fileID: 0}
+    - target: {fileID: 7993324807276840014, guid: 3813f424354791046b1db71585d0568f, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: ScenesController, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 7993324807276840014, guid: 3813f424354791046b1db71585d0568f, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 7993324807283281575, guid: 3813f424354791046b1db71585d0568f, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 

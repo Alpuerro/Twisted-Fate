@@ -15,6 +15,12 @@ public class ScenesController : MonoBehaviour
     {
         asyncSceneLoad = SceneManager.UnloadSceneAsync((int)name, UnloadSceneOptions.None);
     }
+
+    public static void ReloadScene(SceneNames name)
+    {
+        SceneManager.UnloadSceneAsync((int)name, UnloadSceneOptions.UnloadAllEmbeddedSceneObjects);
+        SceneManager.LoadScene((int)name, LoadSceneMode.Additive);
+    }
 }
 
 namespace SceneNamesspace
