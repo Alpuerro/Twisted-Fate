@@ -143,6 +143,7 @@ public class GameLoop : MonoBehaviour
         int round = (int)SharedDataManager.GetDataByKey("round");
         SharedDataManager.SetDataByKey("round", round + 1);
         SharedDataManager.SetDataByKey("score", round);
+        // Corrutina para mostrar que ha ganado
         ScenesController.ReloadScene(SceneNames.Combat);
     }
 
@@ -151,6 +152,9 @@ public class GameLoop : MonoBehaviour
         Debug.Log("GAME LOOP | Enemy wins");
         if ((int)SharedDataManager.GetDataByKey("score") < (int)SharedDataManager.GetDataByKey("round"))
             SharedDataManager.SetDataByKey("score", (int)SharedDataManager.GetDataByKey("round"));
+
+        // Corrutina para mostrar que ha perdido
+        ScenesController.LoadScene(SceneNames.Menu);
         ScenesController.UnloadScene(SceneNames.Combat);
     }
 }
