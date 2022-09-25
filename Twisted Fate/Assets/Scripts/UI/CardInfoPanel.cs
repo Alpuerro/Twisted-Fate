@@ -63,18 +63,18 @@ public class CardInfoPanel : MonoBehaviour
         foreach (CardData c in cardsPlayed)
         {
             numberCardsRemaining[c.GetNumberUnits()]--;
-            typeCardsRemaining[c.cardType]--;
+            if(c.cardType!=0)typeCardsRemaining[c.cardType-1]--;
         }
 
         SetTexts();
     }
 
-    private void AddCards(List<CardData> cardsReturned)
+    public  void AddCards(List<CardData> cardsReturned)
     {
         foreach (CardData c in cardsReturned)
         {
             numberCardsRemaining[c.GetNumberUnits()]++;
-            typeCardsRemaining[c.cardType]++;
+            if (c.cardType != 0) typeCardsRemaining[c.cardType - 1]++;
         }
 
         SetTexts();
