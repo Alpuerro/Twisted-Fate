@@ -50,6 +50,7 @@ public class ComboCardManager : MonoBehaviour
     public void ProcessComboCard(List<CardData> cards)
     {
         //check damage combo
+        //no poner nada por encima de esta linea porque revienta la sincronizacion
         _damageAmount = ProcessDamage(cards);
         Debug.Log("PLAYER | Damages a hacer: " + _damageAmount);
 

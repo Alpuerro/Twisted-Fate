@@ -81,6 +81,7 @@ public class CardDeck : MonoBehaviour
         if (_cardRemaings.Count <= 1)
         {
             Debug.Log("Graveyard al deck");
+            FindObjectOfType<CardInfoPanel>().AddCards(new List<CardData>(_graveyard.GetCards()));
             foreach (CardData c in _graveyard.GetCards())
             {
                 _cardRemaings.Push(c);
