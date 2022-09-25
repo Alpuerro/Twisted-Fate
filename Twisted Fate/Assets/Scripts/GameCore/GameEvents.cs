@@ -8,5 +8,6 @@ public static class GameEvents
     public static UnityEvent GameStart = new UnityEvent();
     public static UnityEvent UpdateUI = new UnityEvent();
     public static UnityEvent<CardData> CardPlayed = new UnityEvent<CardData>();
+    public static UnityEvent<List<CardData>> ComboPlayed = new UnityEvent<List<CardData>>();
     public static UnityEvent<CardData> CardRemoved = new UnityEvent<CardData>();
 }

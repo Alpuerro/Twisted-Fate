@@ -2,17 +2,19 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Threading.Tasks;
+using DG.Tweening;
 
 public class PlayerUIManager : MonoBehaviour
 {
-    [SerializeField] Image healthBarFill;
-    [SerializeField] Image healthBarFader;
+    [SerializeField] Image[] healthBarFills;
+    [SerializeField] Image[] healthBarFaders;
     [SerializeField] Image shieldBarFill;
     [SerializeField] Image shieldBarFader;
 
+    int currentHealthBar = 2;
     public async Task UpdateHealthBar(float currentHealth)
     {
-        StartCoroutine(AnimateBar(healthBarFader, healthBarFill, currentHealth));
+        StartCoroutine(AnimateBar(healthBarFaders[currentHealthBar], healthBarFills[currentHealthBar], currentHealth));
         await Task.Yield();
     }
     public async Task UpdateShield(float currentShield)
@@ -23,8 +25,14 @@ public class PlayerUIManager : MonoBehaviour
 
     public void SetHealthBar(int currentHealth, int maxHealth)
     {
-        healthBarFill.fillAmount = currentHealth/maxHealth;
-        healthBarFader.fillAmount = healthBarFill.fillAmount;
+        int healthPerBar = maxHealth / healthBarFills.Length;
+        for (int i = 0; i < healthBarFills.Length; i++)
+        {
+            //0 index is the last health bar, the bottom one
+            healthBarFills[i].fillAmount = Mathf.Clamp01(currentHealth / (healthPerBar * i+1));
+            if (healthBarFills[i].fillAmount < 1) currentHealthBar = i;
+            healthBarFaders[i].fillAmount = healthBarFills[i].fillAmount;
+        }
     }
 
     public void SetShieldBar(int currentShield, int maxShield)
