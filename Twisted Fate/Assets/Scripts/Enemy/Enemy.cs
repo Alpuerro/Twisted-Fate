@@ -5,22 +5,27 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    [Space(10)]
+    public string enemyType;
     public EnemyData enemyData;
-    public EnemyUIManager uIManager;
-
     public int level = 1;
     public int health;
     public int shield;
     public bool isStunned;
     public int numberOfTurnsStunned = 0;
     private EnemyAction action;
+    [Space(10)]
+    public EnemyUIManager uIManager;
 
     public int AttackDamage { get { return (int)(enemyData.attack * ((level * enemyData._damagePerLevelMultiplier) + 1)); } }
     public int ShieldAmmountToAdd { get { return (int)(enemyData.defense * ((level * enemyData._defensePerLevelMultiplier) + 1)); } }
 
+    private void Start() { enemyType = enemyData.name; }
+
     public void SetEnemyData(in EnemyData enemyData, in int level)
     {
         this.enemyData = enemyData;
+        enemyType = enemyData.name;
         this.level = level;
         health = this.enemyData.maxHealth;
         shield = 0;

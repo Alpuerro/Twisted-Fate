@@ -6,19 +6,13 @@ public class GameLoop : MonoBehaviour
 {
     public static GameLoop Instance;
 
+    private int score;
     public GameLoopData gameLoopData;
     public GameState currentGameState;
-    private int score;
-
-    /// <summary> All existing enemies. </summary>
-    [SerializeField]
-    [Tooltip("All existing enemies.")]
-    EnemyData[] _enemiesList;
-
-    /// <summary> The enemy in the current loop. </summary>
-    [Tooltip("The enemy in the current loop.")]
+    [Space(10)]
     public Enemy enemy;
     public Player player;
+    public EnemyData[] enemieTypesList;
 
     [Header("Cards variables")]
     [SerializeField] CardDeck _deck;
@@ -138,7 +132,7 @@ public class GameLoop : MonoBehaviour
 
     void PickLoopEnemy()
     {
-        enemy.SetEnemyData(_enemiesList.GetRandomElement(), gameLoopData.round);
+        enemy.SetEnemyData(enemieTypesList.GetRandomElement(), gameLoopData.round);
         enemy.SetUI();
         enemy.SetAction();
     }
@@ -147,14 +141,14 @@ public class GameLoop : MonoBehaviour
     {
         Debug.Log("GAME LOOP | Player wins");
         gameLoopData.round++;
-        gameLoopData.score += score;
+        gameLoopData.UpdateScore(score);
         GameLoopStart();
     }
 
     void EnemyWins()
     {
         Debug.Log("GAME LOOP | Enemy wins");
-        gameLoopData.score += score;
+        gameLoopData.UpdateScore(score);
     }
 }
 

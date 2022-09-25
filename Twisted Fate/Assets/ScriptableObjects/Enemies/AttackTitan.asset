@@ -12,13 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fbb5d68564dc8e4ca68898d90e574bc, type: 3}
   m_Name: AttackTitan
   m_EditorClassIdentifier: 
-  maxHealth: 50
-  maxShield: 25
+  maxHealth: 40
+  maxShield: 10
   attack: 15
   defense: 5
-  maxAccumulatedStuns: 2
-  _damagePerLevelMultiplier: 0.2
-  _defensePerLevelMultiplier: 0.2
+  maxAccumulatedStuns: 5
+  _damagePerLevelMultiplier: 0.25
+  _defensePerLevelMultiplier: 0.1
+  _attackProbability: 0.75
   enemySprite: {fileID: 0}
   actionIcons: {fileID: 0}
   animator: {fileID: 0}

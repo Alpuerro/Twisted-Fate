@@ -4,5 +4,7 @@ using UnityEngine;
 public class GameLoopData : ScriptableObject
 {
     public int round;
-    public int score;
+    public int maxScore;
+
+    public void UpdateScore(int score) { if (maxScore < score) maxScore = score; }
 }
