@@ -1,5 +1,4 @@
 using EnemyInfo.EnemyAction;
-using SceneNamesspace;
 using UnityEngine;
 using Utils.Array;
 
@@ -7,8 +6,9 @@ public class GameLoop : MonoBehaviour
 {
     public static GameLoop Instance;
 
+    public GameLoopData gameLoopData;
     public GameState currentGameState;
-    private int round;
+    private int score;
 
     /// <summary> All existing enemies. </summary>
     [SerializeField]
@@ -69,7 +69,6 @@ public class GameLoop : MonoBehaviour
 
     async void PlayerTurn()
     {
-        Debug.Log($"ENEMY | Health: {enemy.health}  Shield: {enemy.shield}");
         Debug.Log("GAME LOOP | Player turn");
         _cardHand.DrawCard();
         _cardHand.DrawCard();
@@ -139,13 +138,24 @@ public class GameLoop : MonoBehaviour
 
     void PickLoopEnemy()
     {
-        enemy.SetEnemyData(_enemiesList.GetRandomElement());
+        enemy.SetEnemyData(_enemiesList.GetRandomElement(), gameLoopData.round);
         enemy.SetUI();
         enemy.SetAction();
     }
 
-    void PlayerWins() { Debug.Log("GAME LOOP | Player wins"); }
-    void EnemyWins() { Debug.Log("GAME LOOP | Enemy wins"); }
+    void PlayerWins()
+    {
+        Debug.Log("GAME LOOP | Player wins");
+        gameLoopData.round++;
+        gameLoopData.score += score;
+        GameLoopStart();
+    }
+
+    void EnemyWins()
+    {
+        Debug.Log("GAME LOOP | Enemy wins");
+        gameLoopData.score += score;
+    }
 }
 
 public enum GameState

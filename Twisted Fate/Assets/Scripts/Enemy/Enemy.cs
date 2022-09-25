@@ -18,9 +18,10 @@ public class Enemy : MonoBehaviour
     public int AttackDamage { get { return (int)(enemyData.attack * ((level * enemyData._damagePerLevelMultiplier) + 1)); } }
     public int ShieldAmmountToAdd { get { return (int)(enemyData.defense * ((level * enemyData._defensePerLevelMultiplier) + 1)); } }
 
-    public void SetEnemyData(in EnemyData enemyData)
+    public void SetEnemyData(in EnemyData enemyData, in int level)
     {
         this.enemyData = enemyData;
+        this.level = level;
         health = this.enemyData.maxHealth;
         shield = 0;
         isStunned = false;
@@ -37,7 +38,7 @@ public class Enemy : MonoBehaviour
         if (damage <= shield) shield -= damage;
         else health -= damage;
 
-        UpdateUI();
+        Task task = UpdateUI();
     }
 
     public bool IsAlive() { return health <= 0 ? false : true; }
@@ -49,7 +50,11 @@ public class Enemy : MonoBehaviour
         this.numberOfTurnsStunned = Mathf.Clamp(this.numberOfTurnsStunned, 0, enemyData.maxAccumulatedStuns);
     }
 
-    public void AddShield() { shield += ShieldAmmountToAdd; UpdateUI(); }
+    public void AddShield()
+    {
+        shield += ShieldAmmountToAdd;
+        Task task = UpdateUI();
+    }
 
     public ref EnemyAction GetAction() { return ref enemyAction; }
     public void SetAction()
@@ -81,7 +86,7 @@ public class Enemy : MonoBehaviour
 
     public async Task UpdateUI()
     {
-        await uIManager.UpdateHealthBar((float)health/enemyData.maxHealth);
+        await uIManager.UpdateHealthBar((float)health / enemyData.maxHealth);
         await uIManager.UpdateShield((float)shield / enemyData.maxShield);
         await Task.Yield();
     }

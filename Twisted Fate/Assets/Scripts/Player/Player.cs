@@ -71,13 +71,13 @@ public class Player : MonoBehaviour
         health += amount;
 
         health = Mathf.Clamp(health, 0, playerData.maxHealth);
-        uIManager.UpdateHealthBar((float)health/playerData.maxHealth);
+        Task task = uIManager.UpdateHealthBar((float)health / playerData.maxHealth);
     }
 
     public void ArmourUp(in int amount)
     {
         armour += amount;
-        uIManager.UpdateShield((float)armour/playerData.maxShield);
+        Task task = uIManager.UpdateShield((float)armour / playerData.maxShield);
     }
 
     public void DrawCards(in int amount)

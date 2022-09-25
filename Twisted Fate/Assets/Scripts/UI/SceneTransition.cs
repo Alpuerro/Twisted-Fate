@@ -14,7 +14,6 @@ public class SceneTransition : MonoBehaviour
         if (instance == null)
         {
             instance = this;
-            DontDestroyOnLoad(instance);
         }
         else
         {
@@ -28,25 +27,18 @@ public class SceneTransition : MonoBehaviour
         lastSceneLoaded = lastSceneNames;
 
         fadeIn.Append(background.DOLocalMoveX(0.0f, 0.8f).SetEase(Ease.InOutSine));
-        fadeIn.AppendCallback(() =>
-        {
-            ScenesController.LoadScene(sceneName);
-        });
+        fadeIn.AppendCallback(() => ScenesController.LoadScene(sceneName));
 
         fadeIn.Play();
     }
 
     public void FadeOutTransition()
     {
-        if (lastSceneLoaded != null)
+        if (lastSceneLoaded >= 0)
         {
             Sequence fadeOut = DOTween.Sequence();
 
             fadeOut.Append(background.DOLocalMoveX(-Screen.width * 2, 0.8f).SetEase(Ease.InOutSine));
-            fadeOut.AppendCallback(() =>
-            {
-                ScenesController.UnloadScene(lastSceneLoaded);
-            });
 
             fadeOut.Play();
         }
