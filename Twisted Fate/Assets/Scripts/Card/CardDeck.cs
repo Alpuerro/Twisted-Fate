@@ -5,6 +5,7 @@ using DG.Tweening;
 
 public class CardDeck : MonoBehaviour
 {
+    [SerializeField] DeckData _deckData;
     [SerializeField] Card cardPrefab;
     private CardGraveyard _graveyard;
 
@@ -24,44 +25,9 @@ public class CardDeck : MonoBehaviour
 
     private void CreateNewDeck()
     {
-        for (int i = 0; i < 100; i++)
+        for (int i = 0; i < _deckData.data.Length; i++)
         {
-            if (i == 0)
-            {
-                //rainbow card
-                _cardRemaings.Push(new CardData(i, 0));
-                continue;
-            }
-            if ((i >= 1 && i <= 19))
-            {
-                //health card
-                _cardRemaings.Push(new CardData(i, 1));
-                continue;
-            }
-            if ((i >= 20 && i <= 39))
-            {
-                //armour card
-                _cardRemaings.Push(new CardData(i, 2));
-                continue;
-            }
-            if ((i >= 40 && i <= 59))
-            {
-                //draw card
-                _cardRemaings.Push(new CardData(i, 3));
-                continue;
-            }
-            if ((i >= 60 && i <= 79))
-            {
-                //stun card
-                _cardRemaings.Push(new CardData(i, 4));
-                continue;
-            }
-            if ((i >= 80 && i <= 100))
-            {
-                //damage card
-                _cardRemaings.Push(new CardData(i, 5));
-                continue;
-            }
+            _cardRemaings.Push(new CardData(i, _deckData.data[i]));
         }
     }
 

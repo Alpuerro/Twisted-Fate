@@ -47,6 +47,7 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         if (!onZone)
         {
             transform.SetParent(FindObjectOfType<CardHand>().transform, false);
+            GetComponentInChildren<IconAnimator>().StopAnimations();
             GameEvents.CardRemoved.Invoke(_card.GetCardData());
         }
         _canvasGroup.blocksRaycasts = true;

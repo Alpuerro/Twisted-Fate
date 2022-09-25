@@ -42,6 +42,8 @@ public class Player : MonoBehaviour
             health = playerData.maxHealth;
         }
 
+        if (uIManager == null) uIManager = FindObjectOfType<PlayerUIManager>();
+
         uIManager.SetHealthBar(health, playerData.maxHealth);
         uIManager.SetShieldBar(armour, playerData.maxShield);
     }
@@ -56,6 +58,7 @@ public class Player : MonoBehaviour
     public void DamagePlayer(in int amount)
     {
         health -= amount;
+        if (uIManager == null) uIManager = FindObjectOfType<PlayerUIManager>();
         uIManager.DamageFeedback();
 
         if (health <= 0) Die();

@@ -7,6 +7,8 @@ using SceneNamesspace;
 public class MainMenuUIManager : MonoBehaviour
 {
     [SerializeField] CanvasGroup creditsPanel;
+    [SerializeField] UnityEngine.UI.Button startButton;
+    [SerializeField] UnityEngine.UI.Button tutorialButton;
     Vector3 startPositionCredits;
 
     private void Start()
@@ -18,11 +20,13 @@ public class MainMenuUIManager : MonoBehaviour
 
     public void StartGame()
     {
+        startButton.interactable = false;
         SceneTransition.instance.FadeInTransition(SceneNames.Combat, SceneNames.Menu, true, true);
     }
     public void StartTutorial()
     {
-        SceneTransition.instance.FadeInTransition(SceneNames.Tutorial, SceneNames.Menu, true, false);
+        tutorialButton.interactable = false;
+        SceneTransition.instance.FadeInTransition(SceneNames.Tutorial, SceneNames.Menu, true, true);
     }
 
 

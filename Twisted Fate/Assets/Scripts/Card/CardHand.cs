@@ -26,10 +26,13 @@ public class CardHand : MonoBehaviour
 
     private void StartGame()
     {
-        //draw seven cards at start
-        for (int i = 0; i < 7; i++)
+        //draw five cards at start
+        for (int i = 0; i < 5; i++)
         {
-            DrawCard();
+            if (handSize < 7)
+            {
+                DrawCard();
+            }
         }
     }
 
@@ -59,17 +62,21 @@ public class CardHand : MonoBehaviour
     [ContextMenu("Draw one card")]
     public void DrawCard()
     {
-        Card newCard = _deck.DrawCard();
-        Sequence sequence = DOTween.Sequence();
-
-        float middlePoint = newCard.transform.position.x + (transform.position.x - newCard.transform.position.x) / 2;
-        sequence.Append(newCard.transform.DOMove(transform.position, 1.3f).SetEase(Ease.InOutSine));
-        sequence.Join(newCard.transform.DOMoveY(transform.position.y + 100, 0.6f).SetEase(Ease.InSine));
-        sequence.Join(newCard.transform.DOMoveY(transform.position.y, 0.7f).SetEase(Ease.OutSine).SetDelay(0.6f));
-        sequence.AppendCallback(() =>
+        if (handSize < 7)
         {
-            newCard.transform.SetParent(transform, false);
-            ReorderHand();
-        });
+            handSize++;
+            Card newCard = _deck.DrawCard();
+            Sequence sequence = DOTween.Sequence();
+
+            float middlePoint = newCard.transform.position.x + (transform.position.x - newCard.transform.position.x) / 2;
+            sequence.Append(newCard.transform.DOMove(transform.position, 1.3f).SetEase(Ease.InOutSine));
+            sequence.Join(newCard.transform.DOMoveY(transform.position.y + 100, 0.6f).SetEase(Ease.InSine));
+            sequence.Join(newCard.transform.DOMoveY(transform.position.y, 0.7f).SetEase(Ease.OutSine).SetDelay(0.6f));
+            sequence.AppendCallback(() =>
+            {
+                newCard.transform.SetParent(transform, false);
+                ReorderHand();
+            });
+        }
     }
 }

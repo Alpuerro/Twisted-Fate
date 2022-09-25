@@ -62,4 +62,9 @@ public class PlayerUIManager : MonoBehaviour
 
         yield return null;
     }
+
+    private void OnDestroy()
+    {
+        StopAllCoroutines();
+    }
 }

@@ -88,6 +88,13 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 11e27dc26bf9b4242ab1c119c5e5c0b6, type: 3}
   - {fileID: 21300000, guid: 4f9bc838e28dbda4fa18b3f0d16a4d8d, type: 3}
   - {fileID: 21300000, guid: 17d0d317d866a4d468bd982e93708255, type: 3}
+  iconAnimations:
+  - {fileID: 4195218969221075907, guid: 711a005c268419c439ab6cfd5572f18f, type: 3}
+  - {fileID: 4871191243733991611, guid: 9ea7ff60d7ede1346b740d7477dbc995, type: 3}
+  - {fileID: 4195218969221075907, guid: 711a005c268419c439ab6cfd5572f18f, type: 3}
+  - {fileID: 5188953830309078101, guid: 38e71a9fd60d0b2429f6f32e6e6f7552, type: 3}
+  - {fileID: 8876219876379140032, guid: 74036a703b46f6f42a18f0698ca5ce23, type: 3}
+  - {fileID: 4908113849959550563, guid: 74cdac5571b28f4429545eb7f0a65be0, type: 3}
   visualParent: {fileID: 3903274905843685801}
   scaleToReset: {x: 1, y: 1, z: 1}
 --- !u!1 &1741794948531450803

@@ -41,7 +41,7 @@ public class TutorialUIManager : MonoBehaviour
 
         if (index >= tutorialPanels.Length)
         {
-            SceneTransition.instance.FadeInTransition(SceneNames.Menu, SceneNames.Tutorial, false, true);
+            SceneTransition.instance.FadeInTransition(SceneNames.Menu, SceneNames.Tutorial, true, true);
             return;
         }
         tutorialPanels[index].SetActive(true);

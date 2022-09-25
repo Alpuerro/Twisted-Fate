@@ -11,6 +11,7 @@ public class Card : MonoBehaviour
     [SerializeField] TextMeshProUGUI[] _textBoxes;
     [SerializeField] Image background;
     [SerializeField] Sprite[] cardSprites;
+    [SerializeField] GameObject[] iconAnimations;
     [SerializeField] RectTransform visualParent;
     private CardData _data;
 
@@ -42,10 +43,12 @@ public class Card : MonoBehaviour
             t.text = "<color=#96e8ff>"+_data.GetNumberDecens().ToString()+ "</color>"+_data.GetNumberUnits().ToString();
         }
         background.sprite = cardSprites[_data.cardType];
+        Instantiate(iconAnimations[_data.cardType], visualParent);
     }
 
     public void CardPlayedAnimation()
     {
+        GetComponentInChildren<IconAnimator>().PlayIconAnimator();
         scaleToReset = Vector3.one * 0.8f;
         visualParent.DOScale(Vector3.one * 0.8f, 0.35f).SetEase(Ease.InOutSine);
     }    

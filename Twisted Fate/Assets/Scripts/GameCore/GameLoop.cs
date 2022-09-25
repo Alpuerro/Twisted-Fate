@@ -55,6 +55,7 @@ public class GameLoop : MonoBehaviour
     #region States Functions
     async void GameLoopStart()
     {
+        StopAllCoroutines();
         Debug.Log("GAME LOOP | Game loop start");
         PickLoopEnemy();
         // TD Enemy aparece
@@ -145,8 +146,7 @@ public class GameLoop : MonoBehaviour
         int round = (int)SharedDataManager.GetDataByKey("round");
         SharedDataManager.SetDataByKey("round", round + 1);
         SharedDataManager.SetDataByKey("score", round);
-        WinCoroutine();
-        ScenesController.ReloadScene(SceneNames.Combat);
+        StartCoroutine(WinCoroutine());
     }
 
     void EnemyWins()
@@ -154,18 +154,18 @@ public class GameLoop : MonoBehaviour
         Debug.Log("GAME LOOP | Enemy wins");
         if ((int)SharedDataManager.GetDataByKey("score") < (int)SharedDataManager.GetDataByKey("round"))
             SharedDataManager.SetDataByKey("score", (int)SharedDataManager.GetDataByKey("round"));
-        LooseCoroutine();
-        ScenesController.LoadScene(SceneNames.Menu);
-        ScenesController.UnloadScene(SceneNames.Combat);
+        StartCoroutine(LooseCoroutine());
     }
 
     IEnumerator WinCoroutine()
     {
         yield return new WaitForSeconds(3);
+        RunGameState(GameState.Start);
     }
     IEnumerator LooseCoroutine()
     {
         yield return new WaitForSeconds(3);
+        SceneTransition.instance.FadeInTransition(SceneNames.Menu, SceneNames.Combat, true, true);
     }
 
     public void Pause()
