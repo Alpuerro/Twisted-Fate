@@ -1,4 +1,4 @@
-using EnemyInfo.EnemyAction;
+using EnemyInfo;
 using System.Threading.Tasks;
 using UnityEngine;
 
@@ -13,7 +13,7 @@ public class Enemy : MonoBehaviour
     public int shield;
     public bool isStunned;
     public int numberOfTurnsStunned = 0;
-    private EnemyAction enemyAction;
+    private EnemyAction action;
 
     public int AttackDamage { get { return (int)(enemyData.attack * ((level * enemyData._damagePerLevelMultiplier) + 1)); } }
     public int ShieldAmmountToAdd { get { return (int)(enemyData.defense * ((level * enemyData._defensePerLevelMultiplier) + 1)); } }
@@ -56,24 +56,24 @@ public class Enemy : MonoBehaviour
         Task task = UpdateUI();
     }
 
-    public ref EnemyAction GetAction() { return ref enemyAction; }
+    public ref EnemyAction GetAction() { return ref action; }
     public void SetAction()
     {
-        enemyAction.enemyActionsType = ((Random.value < 0.5) ? EnemyActionsType.Attack : EnemyActionsType.Defend);
-        switch (enemyAction.enemyActionsType)
+        action.enemyActionsType = enemyData.GetActionType();
+        switch (action.enemyActionsType)
         {
-            case EnemyActionsType.Attack:
-                enemyAction.ammout = AttackDamage;
+            case EnemyActionTypes.Attack:
+                action.ammout = AttackDamage;
                 //0 es el icono de atacar
                 uIManager.ShowIcon(0);
                 break;
-            case EnemyActionsType.Defend:
-                enemyAction.ammout = ShieldAmmountToAdd;
+            case EnemyActionTypes.Defend:
+                action.ammout = ShieldAmmountToAdd;
                 //1 es el icono de atacar
                 uIManager.ShowIcon(1);
                 break;
             default:
-                enemyAction.ammout = 0;
+                action.ammout = 0;
                 break;
         }
     }

@@ -24,10 +24,10 @@ public class CardInfoPanel : MonoBehaviour
         for (int i = 0; i < deckData.data.Length; i++)
         {
             int j = i % 10;
-            if(i != 0) 
+            if (i != 0)
             {
                 numberCardsRemaining[j]++;
-                typeCardsRemaining[deckData.data[i]-1]++;
+                typeCardsRemaining[deckData.data[i] - 1]++;
             }
         }
         startPosition = transform.localPosition;
@@ -62,7 +62,7 @@ public class CardInfoPanel : MonoBehaviour
         foreach (CardData c in cardsPlayed)
         {
             numberCardsRemaining[c.GetNumberUnits()]--;
-            typeCardsRemaining[c.cardType]--;
+            if (c.cardType != 0) typeCardsRemaining[c.cardType - 1]--;
         }
 
         SetTexts();
@@ -73,14 +73,14 @@ public class CardInfoPanel : MonoBehaviour
         foreach (CardData c in cardsReturned)
         {
             numberCardsRemaining[c.GetNumberUnits()]++;
-            typeCardsRemaining[c.cardType]++;
+            if (c.cardType != 0) typeCardsRemaining[c.cardType - 1]++;
         }
 
         SetTexts();
     }
 
     private void SetTexts()
-    { 
-        
+    {
+
     }
 }

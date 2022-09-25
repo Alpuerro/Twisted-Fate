@@ -1,3 +1,4 @@
+using EnemyInfo;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Enemy", menuName = "ScriptableObjects/Enemy")]
@@ -15,22 +16,26 @@ public class EnemyData : ScriptableObject
     public float _damagePerLevelMultiplier;
     [Range(0, 1)]
     public float _defensePerLevelMultiplier;
+    [Range(0, 1)]
+    public float _attackProbability;
 
     [Space(10)]
     public Texture2D enemySprite;
     public Texture2DArray actionIcons;
     public Animator animator;
+
+    public EnemyActionTypes GetActionType()
+    {
+        return ((Random.value < _attackProbability) ? EnemyActionTypes.Attack : EnemyActionTypes.Defend);
+    }
 }
 
 namespace EnemyInfo
 {
-    namespace EnemyAction
+    public enum EnemyActionTypes { Attack, Defend }
+    public struct EnemyAction
     {
-        public enum EnemyActionsType { Attack, Defend }
-        public struct EnemyAction
-        {
-            public int ammout;
-            public EnemyActionsType enemyActionsType;
-        }
+        public int ammout;
+        public EnemyActionTypes enemyActionsType;
     }
 }

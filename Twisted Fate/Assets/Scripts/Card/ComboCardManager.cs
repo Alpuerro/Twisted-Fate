@@ -50,12 +50,12 @@ public class ComboCardManager : MonoBehaviour
     public void ProcessComboCard(List<CardData> cards)
     {
         //check damage combo
-        GameEvents.ComboPlayed.Invoke(cards);
         _damageAmount = ProcessDamage(cards);
         Debug.Log("PLAYER | Damages a hacer: " + _damageAmount);
 
         //check effect combo
         _comboEffects = ProcessCombo(cards);
+        GameEvents.ComboPlayed.Invoke(cards);
 
         StartCoroutine(ComboAnimation());
     }

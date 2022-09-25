@@ -1,4 +1,4 @@
-using EnemyInfo.EnemyAction;
+using EnemyInfo;
 using UnityEngine;
 using Utils.Array;
 
@@ -112,15 +112,15 @@ public class GameLoop : MonoBehaviour
 
             void ApplyEnemyAction(ref EnemyAction enemyAction)
             {
-                Debug.Log("ENEMY | Enemy action: " + System.Enum.GetName(typeof(EnemyActionsType), enemyAction.enemyActionsType));
+                Debug.Log("ENEMY | Enemy action: " + System.Enum.GetName(typeof(EnemyActionTypes), enemyAction.enemyActionsType));
                 switch (enemyAction.enemyActionsType)
                 {
-                    case EnemyActionsType.Attack:
+                    case EnemyActionTypes.Attack:
                         player.DamagePlayer(enemy.AttackDamage);
                         Debug.Log($"ENEMY | Damage {enemy.AttackDamage}");
 
                         break;
-                    case EnemyActionsType.Defend:
+                    case EnemyActionTypes.Defend:
                         enemy.AddShield();
                         Debug.Log($"ENEMY | Shield {enemy.shield}");
                         break;
