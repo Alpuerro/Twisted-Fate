@@ -18,12 +18,11 @@ public class MainMenuUIManager : MonoBehaviour
 
     public void StartGame()
     {
-        SceneTransition.instance.FadeInTransition(SceneNames.Combat, SceneNames.Menu);
-        ScenesController.UnloadScene(SceneNames.Menu);
+        SceneTransition.instance.FadeInTransition(SceneNames.Combat, SceneNames.Menu, true, true);
     }
     public void StartTutorial()
     {
-        SceneTransition.instance.FadeInTransition(SceneNames.Tutorial, SceneNames.Menu);
+        SceneTransition.instance.FadeInTransition(SceneNames.Tutorial, SceneNames.Menu, true, false);
     }
 
 

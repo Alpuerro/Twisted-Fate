@@ -167,6 +167,11 @@ public class GameLoop : MonoBehaviour
     {
         yield return new WaitForSeconds(3);
     }
+
+    public void Pause()
+    {
+        ScenesController.LoadScene(SceneNames.Pause);
+    }
 }
 
 public enum GameState

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using SceneNamesspace;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -40,8 +41,7 @@ public class TutorialUIManager : MonoBehaviour
 
         if (index >= tutorialPanels.Length)
         {
-            SceneTransition.instance.FadeInTransition(SceneNamesspace.SceneNames.Menu, SceneNamesspace.SceneNames.Tutorial);
-            ScenesController.UnloadScene(SceneNamesspace.SceneNames.Tutorial);
+            SceneTransition.instance.FadeInTransition(SceneNames.Menu, SceneNames.Tutorial, false, true);
             return;
         }
         tutorialPanels[index].SetActive(true);
