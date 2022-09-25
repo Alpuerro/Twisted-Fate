@@ -59,9 +59,13 @@ public class Enemy : MonoBehaviour
         {
             case EnemyActionsType.Attack:
                 enemyAction.ammout = AttackDamage;
+                //0 es el icono de atacar
+                uIManager.ShowIcon(0);
                 break;
             case EnemyActionsType.Defend:
                 enemyAction.ammout = ShieldAmmountToAdd;
+                //1 es el icono de atacar
+                uIManager.ShowIcon(1);
                 break;
             default:
                 enemyAction.ammout = 0;
@@ -75,9 +79,10 @@ public class Enemy : MonoBehaviour
         uIManager.SetShieldBar(shield, enemyData.maxShield);
     }
 
-    public void UpdateUI()
+    public async Task UpdateUI()
     {
-        uIManager.UpdateHealthBar(health);
-        uIManager.UpdateShield(shield);
+        await uIManager.UpdateHealthBar((float)health/enemyData.maxHealth);
+        await uIManager.UpdateShield((float)shield / enemyData.maxShield);
+        await Task.Yield();
     }
 }

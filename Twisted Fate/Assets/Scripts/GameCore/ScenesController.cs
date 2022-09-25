@@ -24,6 +24,7 @@ namespace SceneNamesspace
         Main,
         Menu,
         Combat,
+        Tutorial,
         Pause
     }
 }

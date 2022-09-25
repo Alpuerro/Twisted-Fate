@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
+using System.Threading.Tasks;
 
 public class Player : MonoBehaviour
 {
@@ -46,11 +47,16 @@ public class Player : MonoBehaviour
     }
 
     //TODO todas las animaciones y la comunicacion con la interfaz
+    public async Task UpdateUIBars()
+    {
+        await uIManager.UpdateHealthBar((float)health / playerData.maxHealth);
+        await uIManager.UpdateShield((float)armour / playerData.maxShield);
+        await Task.Yield();
+    }
 
     public void DamagePlayer(in int amount)
     {
         health -= amount;
-        uIManager.UpdateHealthBar(health);
 
         if (health <= 0) Die();
     }
@@ -65,13 +71,13 @@ public class Player : MonoBehaviour
         health += amount;
 
         health = Mathf.Clamp(health, 0, playerData.maxHealth);
-        uIManager.UpdateHealthBar(health);
+        uIManager.UpdateHealthBar((float)health/playerData.maxHealth);
     }
 
     public void ArmourUp(in int amount)
     {
         armour += amount;
-        uIManager.UpdateShield(armour);
+        uIManager.UpdateShield((float)armour/playerData.maxShield);
     }
 
     public void DrawCards(in int amount)

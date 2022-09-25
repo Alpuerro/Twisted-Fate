@@ -5,6 +5,9 @@ using SceneNamesspace;
 public class SceneTransition : MonoBehaviour
 {
     public static SceneTransition instance;
+    [SerializeField] RectTransform background;
+
+    SceneNames lastSceneLoaded;
 
     public void Awake()
     {
@@ -19,11 +22,12 @@ public class SceneTransition : MonoBehaviour
         }
     }
 
-    public void FadeInTransition(SceneNames sceneName)
+    public void FadeInTransition(SceneNames sceneName, SceneNames lastSceneNames)
     {
         Sequence fadeIn = DOTween.Sequence();
+        lastSceneLoaded = lastSceneNames;
 
-        fadeIn.Append(transform.DOLocalMoveX(0.0f, 0.8f).SetEase(Ease.InOutSine));
+        fadeIn.Append(background.DOLocalMoveX(0.0f, 0.8f).SetEase(Ease.InOutSine));
         fadeIn.AppendCallback(() =>
         {
             ScenesController.LoadScene(sceneName);
@@ -34,10 +38,17 @@ public class SceneTransition : MonoBehaviour
 
     public void FadeOutTransition()
     {
-        Sequence fadeOut = DOTween.Sequence();
+        if (lastSceneLoaded != null)
+        {
+            Sequence fadeOut = DOTween.Sequence();
 
-        fadeOut.Append(transform.DOLocalMoveX(-Screen.width, 0.8f).SetEase(Ease.InOutSine));
+            fadeOut.Append(background.DOLocalMoveX(-Screen.width * 2, 0.8f).SetEase(Ease.InOutSine));
+            fadeOut.AppendCallback(() =>
+            {
+                ScenesController.UnloadScene(lastSceneLoaded);
+            });
 
-        fadeOut.Play();
+            fadeOut.Play();
+        }
     }
 }

@@ -11,14 +11,19 @@ public class MainMenuUIManager : MonoBehaviour
 
     private void Start()
     {
+        if (SceneTransition.instance != null) SceneTransition.instance.FadeOutTransition();
         startPositionCredits = creditsPanel.transform.localPosition;
     }
 
     public void StartGame()
     {
-        SceneTransition.instance.FadeInTransition(SceneNames.Combat);
-        ScenesController.UnloadScene(SceneNames.Menu);
+        SceneTransition.instance.FadeInTransition(SceneNames.Combat, SceneNames.Menu);
     }
+    public void StartTutorial()
+    {
+        SceneTransition.instance.FadeInTransition(SceneNames.Tutorial, SceneNames.Menu);
+    }
+
 
     public void ShowCredits()
     {
