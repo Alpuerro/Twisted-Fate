@@ -1,4 +1,5 @@
 using EnemyInfo;
+using SceneNamesspace;
 using UnityEngine;
 using Utils.Array;
 
@@ -142,7 +143,7 @@ public class GameLoop : MonoBehaviour
         int round = (int)SharedDataManager.GetDataByKey("round");
         SharedDataManager.SetDataByKey("round", round + 1);
         SharedDataManager.SetDataByKey("score", round);
-        GameLoopStart();
+        ScenesController.ReloadScene(SceneNames.Combat);
     }
 
     void EnemyWins()
@@ -150,6 +151,7 @@ public class GameLoop : MonoBehaviour
         Debug.Log("GAME LOOP | Enemy wins");
         if ((int)SharedDataManager.GetDataByKey("score") < (int)SharedDataManager.GetDataByKey("round"))
             SharedDataManager.SetDataByKey("score", (int)SharedDataManager.GetDataByKey("round"));
+        ScenesController.UnloadScene(SceneNames.Combat);
     }
 }
 
