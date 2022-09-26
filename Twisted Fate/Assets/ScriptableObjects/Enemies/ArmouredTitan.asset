@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fbb5d68564dc8e4ca68898d90e574bc, type: 3}
   m_Name: ArmouredTitan
   m_EditorClassIdentifier: 
-  maxHealth: 30
+  maxHealth: 10
   maxShield: 100
   attack: 10
-  defense: 20
+  defense: 10
   maxAccumulatedStuns: 0
   _damagePerLevelMultiplier: 0.1
   _defensePerLevelMultiplier: 0.25

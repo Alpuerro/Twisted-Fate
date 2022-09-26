@@ -66,14 +66,14 @@ public class ComboCardManager : MonoBehaviour
     private void ProcessHealthUpCombo(int healthUpAmount)
     {
         CreateIcon(healthUpIcon, healthUpAmount.ToString());
-        Player.instance.HealthUp(healthUpAmount);
+        Player.instance.HealthUp(comboValues.healthUpData[healthUpAmount-1]);
         Debug.Log("PLAYER | Vida subida");
     }
 
     private void ProcessArmourUpCombo(int armourUpAmount)
     {
         CreateIcon(armourUpIcon, armourUpAmount.ToString());
-        Player.instance.ArmourUp(armourUpAmount);
+        Player.instance.ArmourUp(comboValues.armourUpData[armourUpAmount - 1]);
         Debug.Log("PLAYER | Armadura subida");
     }
 
@@ -82,21 +82,21 @@ public class ComboCardManager : MonoBehaviour
         if (_hand == null) _hand = FindObjectOfType<CardHand>();
         CreateIcon(drawIcon, cardsToDraw.ToString());
 
-        Player.instance.DrawCards(cardsToDraw);
+        Player.instance.DrawCards(comboValues.drawData[cardsToDraw - 1]);
         Debug.Log("PLAYER | Cartas robadas");
     }
 
     private void ProcessStunCombo(int turnsToStun)
     {
         CreateIcon(stunIcon, turnsToStun.ToString());
-        Player.instance.StunEnemy(turnsToStun);
+        Player.instance.StunEnemy(comboValues.stunData[turnsToStun - 1]);
         Debug.Log("PLAYER | Enemigo stuniado");
     }
 
     private void ProcessDamageUpCombo(float damageUpPercentaje)
     {
         CreateIcon(damageUpIcon, damageUpPercentaje.ToString());
-        Player.instance.DamageUp(damageUpPercentaje);
+        Player.instance.DamageUp(comboValues.damageUpData[(int)damageUpPercentaje - 1]);
         Debug.Log("PLAYER | Daño subido");
     }
 

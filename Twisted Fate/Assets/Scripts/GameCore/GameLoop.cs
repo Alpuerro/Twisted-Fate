@@ -3,6 +3,7 @@ using EnemyInfo;
 using SceneNamesspace;
 using UnityEngine;
 using Utils.Array;
+using DG.Tweening;
 
 public class GameLoop : MonoBehaviour
 {
@@ -14,6 +15,8 @@ public class GameLoop : MonoBehaviour
     public Enemy enemy;
     public Player player;
     public EnemyData[] enemieTypesList;
+    public CanvasGroup victoryPanel;
+    public CanvasGroup defeatPanel;
 
     [Header("Cards variables")]
     [SerializeField] CardDeck _deck;
@@ -97,9 +100,9 @@ public class GameLoop : MonoBehaviour
         Debug.Log($"ENEMY | Health: {enemy.health}  Shield: {enemy.shield}");
         if (enemy.isStunned)
         {
-            if (enemy.numberOfTurnsStunned > 0) Debug.Log("ENEMY | Not stunned");
-            if (enemy.numberOfTurnsStunned > 0) enemy.isStunned = false;
-            else enemy.numberOfTurnsStunned--;
+            if (enemy.numberOfTurnsStunned <= 1) enemy.isStunned = false;
+            enemy.numberOfTurnsStunned--;
+            enemy.numberOfTurnsStunned = Mathf.Clamp(enemy.numberOfTurnsStunned, 0, enemy.enemyData.maxAccumulatedStuns);
         }
         else
         {
@@ -147,7 +150,7 @@ public class GameLoop : MonoBehaviour
         SharedDataManager.SetDataByKey("round", round + 1);
         FindObjectOfType<PlayerUIManager>().SetRoundText(round + 1);
         SharedDataManager.SetDataByKey("score", round);
-        StartCoroutine(WinCoroutine());
+        WinAnimation();
     }
 
     void EnemyWins()
@@ -155,18 +158,39 @@ public class GameLoop : MonoBehaviour
         Debug.Log("GAME LOOP | Enemy wins");
         if ((int)SharedDataManager.GetDataByKey("score") < (int)SharedDataManager.GetDataByKey("round"))
             SharedDataManager.SetDataByKey("score", (int)SharedDataManager.GetDataByKey("round"));
-        StartCoroutine(LooseCoroutine());
+        DefeatAnimation();
     }
 
-    IEnumerator WinCoroutine()
+    private void WinAnimation()
     {
-        yield return new WaitForSeconds(3);
-        RunGameState(GameState.Start);
+        Sequence sequence = DOTween.Sequence();
+        victoryPanel.interactable = true;
+        victoryPanel.blocksRaycasts = true;
+        sequence.Append(victoryPanel.DOFade(1.0f, 1.0f));
+        sequence.AppendCallback(() =>
+        {
+            RunGameState(GameState.Start);
+        });
+        sequence.Append(victoryPanel.DOFade(0.0f, 1.0f).SetDelay(1.0f));
+        sequence.AppendCallback(() => {
+            victoryPanel.interactable = false;
+            victoryPanel.blocksRaycasts = false;
+        });
+
+        sequence.Play();
     }
-    IEnumerator LooseCoroutine()
+    private void DefeatAnimation()
     {
-        yield return new WaitForSeconds(3);
-        SceneTransition.instance.FadeInTransition(SceneNames.Menu, SceneNames.Combat, true, true);
+        Sequence sequence = DOTween.Sequence();
+        victoryPanel.interactable = true;
+        victoryPanel.blocksRaycasts = true;
+        sequence.Append(victoryPanel.DOFade(1.0f, 1.0f));
+        sequence.AppendCallback(() =>
+        {
+            SceneTransition.instance.FadeInTransition(SceneNames.Menu, SceneNames.Combat, true, true);
+        });
+
+        sequence.Play();
     }
 
     public void Pause()

@@ -57,9 +57,17 @@ public class Player : MonoBehaviour
 
     public void DamagePlayer(in int amount)
     {
-        health -= amount;
+        int shield = armour;
+        int damageAmount = amount;
+        armour -= amount;
+        armour = Mathf.Clamp(armour, 0, playerData.maxShield);
+        damageAmount -= shield;
+        damageAmount = Mathf.Clamp(damageAmount, 0, amount);
+        health -= damageAmount;
         if (uIManager == null) uIManager = FindObjectOfType<PlayerUIManager>();
         uIManager.DamageFeedback();
+        uIManager.SetShieldBar(armour, playerData.maxShield);
+        uIManager.SetHealthBar(health, playerData.maxHealth);
 
         if (health <= 0) Die();
     }
@@ -74,13 +82,13 @@ public class Player : MonoBehaviour
         health += amount;
 
         health = Mathf.Clamp(health, 0, playerData.maxHealth);
-        Task task = uIManager.UpdateHealthBar((float)health / playerData.maxHealth);
+        uIManager.SetHealthBar(health, playerData.maxHealth);
     }
 
     public void ArmourUp(in int amount)
     {
         armour += amount;
-        Task task = uIManager.UpdateShield((float)armour / playerData.maxShield);
+        uIManager.SetShieldBar(armour, playerData.maxShield);
     }
 
     public void DrawCards(in int amount)

@@ -50,7 +50,7 @@ public class PlayerUIManager : MonoBehaviour
         for (int i = 0; i < healthBarFills.Length; i++)
         {
             //0 index is the last health bar, the bottom one
-            healthBarFills[i].fillAmount = Mathf.Clamp01(currentHealth / (healthPerBar * i+1));
+            healthBarFills[i].fillAmount = Mathf.Clamp01(((float)(currentHealth - healthPerBar * i)) / (float)healthPerBar);
             if (healthBarFills[i].fillAmount < 1) currentHealthBar = i;
             healthBarFaders[i].fillAmount = healthBarFills[i].fillAmount;
         }
@@ -59,7 +59,7 @@ public class PlayerUIManager : MonoBehaviour
 
     public void SetShieldBar(int currentShield, int maxShield)
     {
-        shieldBarFill.fillAmount = currentShield/maxShield;
+        shieldBarFill.fillAmount = (float)currentShield/(float)maxShield;
         shieldBarFader.fillAmount = shieldBarFill.fillAmount;
         spText.text = currentShield.ToString();
     }

@@ -469,6 +469,7 @@ GameObject:
   - component: {fileID: 3238380012964811640}
   - component: {fileID: 3238380012964811641}
   - component: {fileID: 3238380012964811646}
+  - component: {fileID: 967927624706332055}
   m_Layer: 5
   m_Name: Deck
   m_TagString: Untagged
@@ -510,7 +511,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _deckData: {fileID: 11400000, guid: 0a2af0877e64290458b697c4dbfe0fd7, type: 2}
-  cardPrefab: {fileID: 2162007796627716988, guid: df528b9e9cd6e024b90c0b8eb9c9e6e4, type: 3}
 --- !u!222 &3238380012964811646
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -519,6 +519,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3238380012964811643}
   m_CullTransparentMesh: 1
+--- !u!114 &967927624706332055
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3238380012964811643}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c47c3af8f2b024b4793a75e2a5051590, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _cardPrefab: {fileID: 2162007796627716988, guid: df528b9e9cd6e024b90c0b8eb9c9e6e4, type: 3}
+  poolSize: 100
 --- !u!1 &3238380013164545450
 GameObject:
   m_ObjectHideFlags: 0

@@ -61,25 +61,35 @@ public class Enemy : MonoBehaviour
         Task task = UpdateUI();
     }
 
-    public ref EnemyAction GetAction() { return ref action; }
+    public ref EnemyAction GetAction() 
+    {
+        return ref action; 
+    }
     public void SetAction()
     {
-        action.enemyActionsType = enemyData.GetActionType();
-        switch (action.enemyActionsType)
+        if (!isStunned)
         {
-            case EnemyActionTypes.Attack:
-                action.ammout = AttackDamage;
-                //0 es el icono de atacar
-                uIManager.ShowIcon(0);
-                break;
-            case EnemyActionTypes.Defend:
-                action.ammout = ShieldAmmountToAdd;
-                //1 es el icono de atacar
-                uIManager.ShowIcon(1);
-                break;
-            default:
-                action.ammout = 0;
-                break;
+            action.enemyActionsType = enemyData.GetActionType();
+            switch (action.enemyActionsType)
+            {
+                case EnemyActionTypes.Attack:
+                    action.ammout = AttackDamage;
+                    //0 es el icono de atacar
+                    uIManager.ShowIcon(0);
+                    break;
+                case EnemyActionTypes.Defend:
+                    action.ammout = ShieldAmmountToAdd;
+                    //1 es el icono de atacar
+                    uIManager.ShowIcon(1);
+                    break;
+                default:
+                    action.ammout = 0;
+                    break;
+            }
+        }
+        else 
+        {
+            uIManager.ShowIcon(2);
         }
     }
 

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fbb5d68564dc8e4ca68898d90e574bc, type: 3}
   m_Name: ColossalTitan
   m_EditorClassIdentifier: 
-  maxHealth: 100
+  maxHealth: 30
   maxShield: 10
   attack: 8
   defense: 8
