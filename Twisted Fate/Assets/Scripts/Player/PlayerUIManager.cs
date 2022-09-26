@@ -44,7 +44,7 @@ public class PlayerUIManager : MonoBehaviour
 
     public void SetRoundText(int roundNumber)
     {
-        roundText.text = "ROUND <color=#FFFAE6>\r\n" + roundNumber + "</color>";
+        roundText.text = "ROUND <color=#FFFAE6>\r\n<size=120%>" + roundNumber + "</color>";
     }
 
     public void SetHealthBar(int currentHealth, int maxHealth)

@@ -111,6 +111,7 @@ public class ComboCardManager : MonoBehaviour
     private void CreateIcon(ComboIcon iconPrefab, string text)
     {
         ComboIcon icon = Instantiate(iconPrefab, iconsParent);
+        iconsParent.GetComponent<RectTransform>().sizeDelta = new Vector2(iconsParent.childCount * 250, iconsParent.GetComponent<RectTransform>().sizeDelta.y);
         icon.CreateIcon(text);
     }
 

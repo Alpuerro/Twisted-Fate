@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: ComboData
   m_EditorClassIdentifier: 
   healthUpData: 14000000280000003c000000
-  armourUpData: 0a000000140000001e000000
+  armourUpData: 140000001e00000032000000
   drawData: 010000000200000004000000
   stunData: 010000000200000003000000
   damageUpData:

@@ -95,6 +95,7 @@ MonoBehaviour:
   _textBox: {fileID: 1429511332453570061}
   _canvasGroup: {fileID: 2729207283209608681}
   spawnVFX: {fileID: 3440853022136368084}
+  iconEffect: {fileID: 0}
 --- !u!225 &2729207283209608681
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -5075,14 +5076,14 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 34.4
-  m_fontSizeBase: 34.4
+  m_fontSize: 50
+  m_fontSizeBase: 50
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 4
+  m_HorizontalAlignment: 1
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 7
