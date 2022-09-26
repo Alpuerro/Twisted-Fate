@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 451ff012440d7474fa49ff5cdebd69a8, type: 3}
   m_Name: ComboData
   m_EditorClassIdentifier: 
-  healthUpData: 0a0000001e00000032000000
-  armourUpData: 050000000f00000019000000
+  healthUpData: 14000000280000003c000000
+  armourUpData: 0a000000140000001e000000
   drawData: 010000000200000004000000
   stunData: 010000000200000003000000
   damageUpData:
-  - 0.2
-  - 0.4
+  - 0.3
   - 0.6
+  - 0.8

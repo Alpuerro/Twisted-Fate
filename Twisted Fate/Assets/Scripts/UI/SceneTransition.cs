@@ -37,8 +37,9 @@ public class SceneTransition : MonoBehaviour
             FadeOutTransition();
         if (unload)
         {
-            FadeOutTransition();
-            fadeIn.AppendCallback(() => ScenesController.UnloadScene(currentScene));
+            fadeIn.AppendCallback(() => {
+                ScenesController.UnloadScene(currentScene);
+                });
         }
 
         fadeIn.Play();

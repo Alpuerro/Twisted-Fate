@@ -59,6 +59,7 @@ public class GameLoop : MonoBehaviour
     async void GameLoopStart()
     {
         StopAllCoroutines();
+        if (SceneTransition.instance != null) SceneTransition.instance.FadeOutTransition();
         Debug.Log("GAME LOOP | Game loop start");
         PickLoopEnemy();
         // TD Enemy aparece
