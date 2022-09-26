@@ -108,7 +108,12 @@ public class GameLoop : MonoBehaviour
         {
             // TD Se aplica el efecto de la accion del enemigo
             ApplyEnemyAction(ref enemy.GetAction());
-            if (player.health <= 0) { EnemyWins(); localGameState = GameState.End; }
+            if (player.health <= 0) {
+                EnemyWins();
+                localGameState = GameState.End;
+                RunGameState(localGameState);
+                return;
+            }
 
             void ApplyEnemyAction(ref EnemyAction enemyAction)
             {

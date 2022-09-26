@@ -14,6 +14,7 @@ public class CardsPlayedZone : MonoBehaviour, IDropHandler
     private CardGraveyard _cardGraveyard;
 
     public List<CardData> cardsPlayed = new List<CardData>();
+    public List<Card> cards = new List<Card>();
     public bool playCards = false;
 
     private void Awake()
@@ -83,6 +84,7 @@ public class CardsPlayedZone : MonoBehaviour, IDropHandler
         for (int i = 0; i < _droppingTransform.childCount; i++)
         {
             Sequence playCardSequence = DOTween.Sequence();
+            cards.Add(_droppingTransform.GetChild(i).GetComponent<Card>());
 
             //playCardSequence.Append(_droppingTransform.GetChild(i).DOShakePosition(0.75f, 4f).SetEase(Ease.InOutSine));
             playCardSequence.Append(_droppingTransform.GetChild(i).DOLocalMove(Vector3.zero, 0.2f).SetEase(Ease.InOutSine));
@@ -120,9 +122,9 @@ public class CardsPlayedZone : MonoBehaviour, IDropHandler
 
     private void ClearZone()
     {
-        for (int i = 0; i < _droppingTransform.childCount; i++)
+        for (int i = 0; i < cards.Count; i++)
         {
-            Destroy(_droppingTransform.GetChild(i).gameObject);
+            CardPool.instance.ReturnCard(cards[i]);
         }
         cardsPlayed.Clear();
         CheckPlayButton();

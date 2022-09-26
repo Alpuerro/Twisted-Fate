@@ -43,7 +43,11 @@ public class Card : MonoBehaviour
             t.text = "<color=#96e8ff>"+_data.GetNumberDecens().ToString()+ "</color>"+_data.GetNumberUnits().ToString();
         }
         background.sprite = cardSprites[_data.cardType];
-        Instantiate(iconAnimations[_data.cardType], visualParent);
+        for (int i = 0; i < iconAnimations.Length; i++)
+        {
+            if (i == _data.cardType) iconAnimations[i].SetActive(true);
+            else iconAnimations[i].SetActive(false);
+        }
     }
 
     public void CardPlayedAnimation()

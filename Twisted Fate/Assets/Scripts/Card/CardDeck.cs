@@ -6,7 +6,6 @@ using DG.Tweening;
 public class CardDeck : MonoBehaviour
 {
     [SerializeField] DeckData _deckData;
-    [SerializeField] Card cardPrefab;
     private CardGraveyard _graveyard;
 
     private Stack<CardData> _cardRemaings = new Stack<CardData>();
@@ -39,7 +38,7 @@ public class CardDeck : MonoBehaviour
 
     public Card DrawCard()
     {
-        Card newCard = Instantiate(cardPrefab, transform);
+        Card newCard = CardPool.instance.GetNewCard();
         if (_cardRemaings.Count > 0) newCard.SetCardData(_cardRemaings.Pop());
         else newCard.SetCardData(new CardData(0, 0)); //only in case, it shouldnt happend
         // Debug.Log(_cardRemaings.Count);
