@@ -31,7 +31,7 @@ public class ComboIcon : MonoBehaviour
     public void DestroyIcon()
     {
         Sequence sequence = DOTween.Sequence();
-        sequence.Append(_canvasGroup.DOFade(0.0f, 0.3f).SetEase(Ease.InOutSine).SetDelay(1.5f));
+        sequence.Append(_canvasGroup.DOFade(0.0f, 0.3f).SetEase(Ease.InOutSine).SetDelay(0.5f));
         sequence.AppendCallback(() => Destroy(gameObject));
         sequence.Play();
     }
