@@ -147,7 +147,7 @@ public class ComboCardManager : MonoBehaviour
             yield return new WaitForSeconds(tiemBetweenIcons);
         }
         //TODO hacer que se aplique el multiplicador de da�o
-        GameLoop.Instance.nextDamageAmount = _damageAmount;
+        GameLoop.Instance.nextDamageAmount = _damageAmount * (int)Player.instance.damageMultiplier;
 
         yield return new WaitForSeconds(0.3f);
         ResetCombos();

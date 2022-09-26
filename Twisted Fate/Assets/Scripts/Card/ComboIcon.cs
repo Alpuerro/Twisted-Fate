@@ -9,10 +9,12 @@ public class ComboIcon : MonoBehaviour
     [SerializeField] TextMeshProUGUI _textBox;
     [SerializeField] CanvasGroup _canvasGroup;
     [SerializeField] ParticleSystem spawnVFX;
+    [SerializeField] SoundSource iconEffect;
 
     public void CreateIcon(string text)
     {
         _textBox.text = "x"+text;
+        if (iconEffect != null) iconEffect.PlaySound();
         AnimateIcon();
     }
 

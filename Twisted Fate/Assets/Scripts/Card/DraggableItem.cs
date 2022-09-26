@@ -8,6 +8,8 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 {
     public float dampingSpeed = 0.05f;
     public bool onZone = false;
+    public SoundSource selectCard;
+    public SoundSource deselectCard;
 
     private RectTransform _draggingTransform;
     private Card _card;
@@ -32,6 +34,7 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         _card.scaleToReset = Vector3.one;
         _card.SetCardRotation(0);
         onZone = false;
+        selectCard.PlaySound();
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -51,6 +54,7 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
             GameEvents.CardRemoved.Invoke(_card.GetCardData());
         }
         _canvasGroup.blocksRaycasts = true;
+        deselectCard.PlaySound();
     }
 
     public void OnDropZone(Transform newParent, Vector2 position)

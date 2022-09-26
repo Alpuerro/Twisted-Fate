@@ -50,7 +50,7 @@ public class Player : MonoBehaviour
 
     public async Task UpdateUIBars()
     {
-        await uIManager.UpdateHealthBar((float)health / playerData.maxHealth);
+        await uIManager.UpdateHealthBar(health, playerData.maxHealth);
         await uIManager.UpdateShield((float)armour / playerData.maxShield);
         await Task.Yield();
     }

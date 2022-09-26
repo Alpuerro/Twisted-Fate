@@ -18,9 +18,12 @@ public class PlayerUIManager : MonoBehaviour
 
 
     int currentHealthBar = 2;
-    public async Task UpdateHealthBar(float currentHealth)
+    public async Task UpdateHealthBar(int currentHealth, int maxHealth)
     {
-        StartCoroutine(AnimateBar(healthBarFaders[currentHealthBar], healthBarFills[currentHealthBar], currentHealth));
+        float barAmount = 0.0f;
+        currentHealth -= (maxHealth / healthBarFills.Length) * currentHealthBar;
+        barAmount = (float)currentHealth / (float)(maxHealth / healthBarFills.Length);
+        StartCoroutine(AnimateBar(healthBarFaders[currentHealthBar], healthBarFills[currentHealthBar], barAmount));
         await Task.Yield();
     }
     public async Task UpdateShield(float currentShield)
@@ -47,12 +50,25 @@ public class PlayerUIManager : MonoBehaviour
     public void SetHealthBar(int currentHealth, int maxHealth)
     {
         int healthPerBar = maxHealth / healthBarFills.Length;
-        for (int i = 0; i < healthBarFills.Length; i++)
+        if (currentHealth > healthPerBar * 2)
         {
-            //0 index is the last health bar, the bottom one
-            healthBarFills[i].fillAmount = Mathf.Clamp01(((float)(currentHealth - healthPerBar * i)) / (float)healthPerBar);
-            if (healthBarFills[i].fillAmount < 1) currentHealthBar = i;
-            healthBarFaders[i].fillAmount = healthBarFills[i].fillAmount;
+            currentHealthBar = 2;
+            healthBarFills[1].fillAmount = 1;
+            healthBarFills[0].fillAmount = 1;
+
+
+        }
+        else if(currentHealth < healthPerBar * 2 && currentHealth > healthPerBar)
+        {
+            currentHealthBar = 1;
+            healthBarFills[2].fillAmount = 0;
+            healthBarFills[0].fillAmount = 1;
+        }
+        else
+        {
+            currentHealthBar = 0;
+            healthBarFills[2].fillAmount = 0;
+            healthBarFills[1].fillAmount = 0;
         }
         hpText.text = currentHealth.ToString();
     }
@@ -72,6 +88,11 @@ public class PlayerUIManager : MonoBehaviour
         barFade.fillAmount = barFill.fillAmount;
 
         yield return null;
+    }
+
+    private float HealthRemap(int value, int from1, int to1, int from2, int to2)
+    {
+        return (value - from1) / (to1 - from1) * (to2 - from2) + from2;
     }
 
     private void OnDestroy()

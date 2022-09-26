@@ -168,6 +168,7 @@ public class GameLoop : MonoBehaviour
 
     private void WinAnimation()
     {
+        victoryPanel.GetComponent<SoundSource>().PlaySound();
         Sequence sequence = DOTween.Sequence();
         victoryPanel.interactable = true;
         victoryPanel.blocksRaycasts = true;
@@ -186,9 +187,10 @@ public class GameLoop : MonoBehaviour
     }
     private void DefeatAnimation()
     {
+        defeatPanel.GetComponent<SoundSource>().PlaySound();
         Sequence sequence = DOTween.Sequence();
-        victoryPanel.interactable = true;
-        victoryPanel.blocksRaycasts = true;
+        defeatPanel.interactable = true;
+        defeatPanel.blocksRaycasts = true;
         sequence.Append(victoryPanel.DOFade(1.0f, 1.0f));
         sequence.AppendCallback(() =>
         {

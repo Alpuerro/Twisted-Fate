@@ -19,7 +19,7 @@ MonoBehaviour:
   maxAccumulatedStuns: 3
   _damagePerLevelMultiplier: 0.1
   _defensePerLevelMultiplier: 0.1
-  _attackProbability: 0.5
+  _attackProbability: 1
   enemySprite: {fileID: 0}
   actionIcons: {fileID: 0}
   animator: {fileID: 0}

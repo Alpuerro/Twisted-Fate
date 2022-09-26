@@ -5105,6 +5105,7 @@ MonoBehaviour:
   _textBox: {fileID: 4442413301981827102}
   _canvasGroup: {fileID: 7229333471846952905}
   spawnVFX: {fileID: 7620997223977387602}
+  iconEffect: {fileID: 0}
 --- !u!225 &7229333471846952905
 CanvasGroup:
   m_ObjectHideFlags: 0
