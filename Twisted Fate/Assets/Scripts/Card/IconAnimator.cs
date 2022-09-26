@@ -139,6 +139,9 @@ public class IconAnimator : MonoBehaviour
 
     private void PlayRainbowAnimation()
     {
-        throw new NotImplementedException();
+        Sequence animation = DOTween.Sequence();
+        animation.Append(character.transform.DOLocalRotate(new Vector3(0, 0, 360), 2f));
+        animation.SetLoops(-1);
+        animation.Play();
     }
 }

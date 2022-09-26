@@ -82,14 +82,14 @@ MonoBehaviour:
   - {fileID: 8777615420209552911}
   background: {fileID: 1741794948531450806}
   cardSprites:
-  - {fileID: 21300000, guid: d04c4023a1888274bb60ce29fbedeaf4, type: 3}
+  - {fileID: 21300000, guid: f2fa6dd85a53150439533cff414ea3d7, type: 3}
   - {fileID: 21300000, guid: cfeb367ffee13664f909c705b56a0c4e, type: 3}
   - {fileID: 21300000, guid: d04c4023a1888274bb60ce29fbedeaf4, type: 3}
   - {fileID: 21300000, guid: 11e27dc26bf9b4242ab1c119c5e5c0b6, type: 3}
   - {fileID: 21300000, guid: 4f9bc838e28dbda4fa18b3f0d16a4d8d, type: 3}
   - {fileID: 21300000, guid: 17d0d317d866a4d468bd982e93708255, type: 3}
   iconAnimations:
-  - {fileID: 4195218969221075907, guid: 711a005c268419c439ab6cfd5572f18f, type: 3}
+  - {fileID: 4195218969221075907, guid: 398a07c86b660184f93ad94d27d19b77, type: 3}
   - {fileID: 4871191243733991611, guid: 9ea7ff60d7ede1346b740d7477dbc995, type: 3}
   - {fileID: 4195218969221075907, guid: 711a005c268419c439ab6cfd5572f18f, type: 3}
   - {fileID: 5188953830309078101, guid: 38e71a9fd60d0b2429f6f32e6e6f7552, type: 3}
@@ -283,7 +283,7 @@ MonoBehaviour:
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_enableWordWrapping: 1
+  m_enableWordWrapping: 0
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
   m_linkedTextComponent: {fileID: 0}

@@ -12,7 +12,7 @@ public class ComboIcon : MonoBehaviour
 
     public void CreateIcon(string text)
     {
-        _textBox.text = text;
+        _textBox.text = "x"+text;
         AnimateIcon();
     }
 

@@ -56,11 +56,11 @@ public class ComboCardManager : MonoBehaviour
 
     private void ProcessRainbowCombo()
     {
-        ProcessHealthUpCombo(comboValues.healthUpData[0]);
-        ProcessArmourUpCombo(comboValues.armourUpData[0]);
-        ProcessDrawCombo(comboValues.drawData[0]);
-        ProcessStunCombo(comboValues.stunData[0]);
-        ProcessDamageUpCombo(comboValues.damageUpData[0]);
+        ProcessHealthUpCombo(1);
+        ProcessArmourUpCombo(1);
+        ProcessDrawCombo(1);
+        ProcessStunCombo(1);
+        ProcessDamageUpCombo(1);
     }
 
     private void ProcessHealthUpCombo(int healthUpAmount)
@@ -128,19 +128,19 @@ public class ComboCardManager : MonoBehaviour
                     ProcessRainbowCombo();
                     break;
                 case 1:
-                    ProcessHealthUpCombo(comboValues.healthUpData[c.comboLevel - 1]);
+                    ProcessHealthUpCombo(c.comboLevel);
                     break;
                 case 2:
-                    ProcessArmourUpCombo(comboValues.armourUpData[c.comboLevel - 1]);
+                    ProcessArmourUpCombo(c.comboLevel);
                     break;
                 case 3:
-                    ProcessDrawCombo(comboValues.drawData[c.comboLevel - 1]);
+                    ProcessDrawCombo(c.comboLevel);
                     break;
                 case 4:
-                    ProcessStunCombo(comboValues.stunData[c.comboLevel - 1]);
+                    ProcessStunCombo(c.comboLevel);
                     break;
                 case 5:
-                    ProcessDamageUpCombo(comboValues.damageUpData[c.comboLevel - 1]);
+                    ProcessDamageUpCombo(c.comboLevel);
                     break;
             }
 

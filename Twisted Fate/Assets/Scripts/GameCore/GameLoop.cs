@@ -145,6 +145,7 @@ public class GameLoop : MonoBehaviour
         Debug.Log("GAME LOOP | Player wins");
         int round = (int)SharedDataManager.GetDataByKey("round");
         SharedDataManager.SetDataByKey("round", round + 1);
+        FindObjectOfType<PlayerUIManager>().SetRoundText(round + 1);
         SharedDataManager.SetDataByKey("score", round);
         StartCoroutine(WinCoroutine());
     }

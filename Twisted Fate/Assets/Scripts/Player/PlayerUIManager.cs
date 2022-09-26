@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Threading.Tasks;
 using DG.Tweening;
+using TMPro;
 
 public class PlayerUIManager : MonoBehaviour
 {
@@ -11,6 +12,9 @@ public class PlayerUIManager : MonoBehaviour
     [SerializeField] Image shieldBarFill;
     [SerializeField] Image shieldBarFader;
     [SerializeField] Image damageTint;
+    [SerializeField] TextMeshProUGUI roundText;
+    [SerializeField] TextMeshProUGUI hpText;
+    [SerializeField] TextMeshProUGUI spText;
 
 
     int currentHealthBar = 2;
@@ -35,6 +39,11 @@ public class PlayerUIManager : MonoBehaviour
         damageFeedback.Play();
     }
 
+    public void SetRoundText(int roundNumber)
+    {
+        roundText.text = "ROUND <color=#FFFAE6>\r\n" + roundNumber + "</color>";
+    }
+
     public void SetHealthBar(int currentHealth, int maxHealth)
     {
         int healthPerBar = maxHealth / healthBarFills.Length;
@@ -45,12 +54,14 @@ public class PlayerUIManager : MonoBehaviour
             if (healthBarFills[i].fillAmount < 1) currentHealthBar = i;
             healthBarFaders[i].fillAmount = healthBarFills[i].fillAmount;
         }
+        hpText.text = currentHealth.ToString();
     }
 
     public void SetShieldBar(int currentShield, int maxShield)
     {
         shieldBarFill.fillAmount = currentShield/maxShield;
         shieldBarFader.fillAmount = shieldBarFill.fillAmount;
+        spText.text = currentShield.ToString();
     }
 
     private IEnumerator AnimateBar(Image barFade, Image barFill, float fillAmount)
