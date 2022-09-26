@@ -17,6 +17,6 @@ MonoBehaviour:
   drawData: 010000000200000004000000
   stunData: 010000000200000003000000
   damageUpData:
-  - 0.3
   - 0.6
-  - 0.8
+  - 1
+  - 1.5

@@ -10,10 +10,11 @@ public class IconAnimator : MonoBehaviour
     [SerializeField] int cardType;
     [SerializeField] Image character;
     [SerializeField] Image icon;
+    [SerializeField] bool playOnStart = false;
     // Start is called before the first frame update
     void Start()
     {
-        //PlayIconAnimator();
+        if(playOnStart) PlayIconAnimator();
     }
 
     public void PlayIconAnimator()

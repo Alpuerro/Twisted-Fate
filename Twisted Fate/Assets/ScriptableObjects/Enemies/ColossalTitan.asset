@@ -17,9 +17,10 @@ MonoBehaviour:
   attack: 4
   defense: 4
   maxAccumulatedStuns: 1
+  enemyName: Steven't
   _damagePerLevelMultiplier: 0.3
   _defensePerLevelMultiplier: 0.3
   _attackProbability: 0.5
-  enemySprite: {fileID: 0}
+  enemySprite: {fileID: 21300000, guid: eb29c401c33f6a241855bc9cd0fa0579, type: 3}
   actionIcons: {fileID: 0}
   animator: {fileID: 0}

@@ -17,9 +17,10 @@ MonoBehaviour:
   attack: 10
   defense: 5
   maxAccumulatedStuns: 2
+  enemyName: Steve1
   _damagePerLevelMultiplier: 0.1
   _defensePerLevelMultiplier: 0.25
   _attackProbability: 0.169
-  enemySprite: {fileID: 0}
+  enemySprite: {fileID: 21300000, guid: 2ad8e8daa1f3c1e498c89b22ad1c5641, type: 3}
   actionIcons: {fileID: 0}
   animator: {fileID: 0}

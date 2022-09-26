@@ -10,6 +10,7 @@ public class EnemyData : ScriptableObject
     public int attack;
     public int defense;
     public int maxAccumulatedStuns;
+    public string enemyName;
 
     [Space(10)]
     [Range(0, 1)]
@@ -20,7 +21,7 @@ public class EnemyData : ScriptableObject
     public float _attackProbability;
 
     [Space(10)]
-    public Texture2D enemySprite;
+    public Sprite enemySprite;
     public Texture2DArray actionIcons;
     public Animator animator;
 

@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Threading.Tasks;
 using DG.Tweening;
+using TMPro;
 
 public class EnemyUIManager : MonoBehaviour
 {
@@ -10,7 +11,19 @@ public class EnemyUIManager : MonoBehaviour
     [SerializeField] Image healthBarFader;
     [SerializeField] Image shieldBarFill;
     [SerializeField] Image shieldBarFader;
+    [SerializeField] Image steveIcon;
     [SerializeField] GameObject[] actionIcons;
+    [SerializeField] TextMeshProUGUI enemyName;
+
+    public void SetName(string name)
+    {
+        enemyName.text = name;
+    }
+
+    public void SetSteve(Sprite steve)
+    {
+        steveIcon.sprite = steve;
+    }
     public async Task UpdateHealthBar(float currentHealth)
     {
         StartCoroutine(AnimateBar(healthBarFader, healthBarFill, currentHealth));

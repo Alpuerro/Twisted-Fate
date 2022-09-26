@@ -154,6 +154,7 @@ public class GameLoop : MonoBehaviour
         Debug.Log("GAME LOOP | Player wins");
         int round = (int)SharedDataManager.GetDataByKey("round");
         SharedDataManager.SetDataByKey("round", round + 1);
+        player.damageMultiplier = 1 + (round * 0.05f);
         FindObjectOfType<PlayerUIManager>().SetRoundText(round + 1);
         SharedDataManager.SetDataByKey("score", round);
         WinAnimation();

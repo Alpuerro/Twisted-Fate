@@ -96,6 +96,8 @@ public class Enemy : MonoBehaviour
     public void SetUI()
     {
         uIManager.SetHealthBar(health, enemyData.maxHealth);
+        uIManager.SetName(enemyData.enemyName);
+        uIManager.SetSteve(enemyData.enemySprite);
         uIManager.SetShieldBar(shield, enemyData.maxShield);
     }
 
