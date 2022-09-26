@@ -37,7 +37,6 @@ public class MainMenuUIManager : MonoBehaviour
         creditsPanel.blocksRaycasts = true;
 
         showCredits.Append(creditsPanel.DOFade(1.0f, 1.0f).SetEase(Ease.InOutSine).SetDelay(0.3f));
-        showCredits.Join(creditsPanel.transform.DOLocalMove(Vector3.zero, 0.7f).SetEase(Ease.InOutSine));
 
         showCredits.Play();
     }
@@ -49,7 +48,6 @@ public class MainMenuUIManager : MonoBehaviour
         creditsPanel.blocksRaycasts = false;
 
         closeCredits.Append(creditsPanel.DOFade(0.0f, 1.0f).SetEase(Ease.InOutSine));
-        closeCredits.Join(creditsPanel.transform.DOLocalMove(startPositionCredits, 0.7f).SetEase(Ease.InOutSine));
 
         closeCredits.Play();
     }
